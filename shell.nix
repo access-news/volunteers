@@ -118,10 +118,7 @@ pkgs.mkShell {
 
     if ! test -d "$PWD/assets/node_modules/"
     then
-      echo "---lofasz--"
-      cd assets
-      npm install
-      cd $PWD
+      (cd assets && npm install)
     fi
 
     ####################################################################
