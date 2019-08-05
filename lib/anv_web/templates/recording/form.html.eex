@@ -1,0 +1,21 @@
+<%= form_for \
+      @changeset,
+      @action,
+      [ multipart: true ],
+      fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%# <%= label f, :recorded_at %1> %>
+  <%# <%= datetime_select f, :recorded_at %1> %>
+  <%# <%= error_tag f, :recorded_at %1> %>
+
+  <%= file_input f, :recording, multiple: true %>
+
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

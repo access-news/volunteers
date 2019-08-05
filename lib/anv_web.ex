@@ -23,6 +23,7 @@ defmodule ANVWeb do
 
       import Plug.Conn
       import ANVWeb.Gettext
+      import ANVWeb.Auth, only: [authenticate_user: 2]
       alias ANVWeb.Router.Helpers, as: Routes
     end
   end
@@ -50,6 +51,7 @@ defmodule ANVWeb do
       use Phoenix.Router
       import Plug.Conn
       import Phoenix.Controller
+      import ANVWeb.Auth, only: [authenticate_user: 2]
     end
   end
 

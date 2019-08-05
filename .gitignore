@@ -43,3 +43,6 @@ rebar*
 _ads/
 *.jpg
 *.png
+
+# google service account credentials
+service_account.json

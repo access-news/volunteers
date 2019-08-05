@@ -1,0 +1,5 @@
+<h1>Edit Recording</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.recording_path(@conn, :update, @recording)) %>
+
+<span><%= link "Back", to: Routes.recording_path(@conn, :index) %></span>

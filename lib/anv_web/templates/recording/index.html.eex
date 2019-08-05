@@ -1,0 +1,26 @@
+<h1>Listing Recordings</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Recorded at</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for recording <- @recordings do %>
+    <tr>
+      <td><%= recording.recorded_at %></td>
+
+      <td>
+        <%= link "Show", to: Routes.recording_path(@conn, :show, recording) %>
+        <%= link "Edit", to: Routes.recording_path(@conn, :edit, recording) %>
+        <%= link "Delete", to: Routes.recording_path(@conn, :delete, recording), method: :delete, data: [confirm: "Are you sure?"] %>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Recording", to: Routes.recording_path(@conn, :new) %></span>

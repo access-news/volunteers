@@ -1,0 +1,13 @@
+<h1>Show Recording</h1>
+
+<ul>
+
+  <li>
+    <strong>Recorded at:</strong>
+    <%= @recording.recorded_at %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.recording_path(@conn, :edit, @recording) %></span>
+<span><%= link "Back", to: Routes.recording_path(@conn, :index) %></span>
