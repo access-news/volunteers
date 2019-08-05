@@ -2,9 +2,16 @@
 
 ## Project start instructions
 
-(Remainder from after project generation.)
+If you have Nix installed or using NixOS:
 
-To start your Phoenix server:
+1. Clone project and `cd` into it
+
+2. Issue `nix-shell`
+
+3. Start  Phoenix endpoint with `mix  phx.server` or
+   `iex -S mix phx.server`
+
+Otherwise:
 
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.setup`

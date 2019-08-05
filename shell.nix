@@ -113,6 +113,18 @@ pkgs.mkShell {
     pg_ctl -D $PGDATA -l $PGDATA/postgres.log  start
 
     ####################################################################
+    # Install Node.js dependencies if not done yet.
+    ####################################################################
+
+    if ! test -d "$PWD/assets/node_modules/"
+    then
+      echo "---lofasz--"
+      cd assets
+      npm install
+      cd $PWD
+    fi
+
+    ####################################################################
     # If $MIX_HOME doesn't exist, set it up.
     ####################################################################
 
