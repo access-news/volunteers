@@ -1,0 +1,20 @@
+.reserved_page {
+  border-radius: 2% / 50%;
+  background-color: #D59133;
+  color: #002e1b;
+}
+
+button {
+  margin-left: 1em;
+}
+
+ol {
+  list-style-type: none;
+}
+span {
+  padding: 0.5em;
+}
+
+li {
+  padding: 0.5em;
+}

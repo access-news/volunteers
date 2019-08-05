@@ -1,4 +1,4 @@
-# Access News Reading Lists
+# Access News - Volunteers
 
 ## Project start instructions
 
@@ -72,7 +72,7 @@ global"), and Rebar as well (yet another).
 > that only  `./_ads/form` is in source  control. (The
 > `meta.json` files in the dirs to be precise.)
 
-3. `Anrl.Ads.list()`
+3. `ANV.Ads.list()`
 
    Generate a map from `./_ads/input`'s contents, which
    structure is very close to `ads.json`'s.
@@ -103,7 +103,7 @@ global"), and Rebar as well (yet another).
    }
    ```
 
-4. `|> Anrl.Ads.submit_ads()`
+4. `|> ANV.Ads.submit_ads()`
 
    Updates `ads.json` from step 3's output, and submits
    a channel  update to  the frontend. The  update only
@@ -170,7 +170,7 @@ The ads are currently images in `./assets/static/images` (and as a corollary, `.
 
 ```elixir
 %Phoenix.Socket{
-  pubsub_server: Anrl.PubSub,
+  pubsub_server: ANV.PubSub,
   topic:  "ads:changed",
   joined: true
 }
@@ -228,15 +228,15 @@ A sample socket:
 ```elixir
 %Phoenix.Socket{
   assigns: %{},
-  channel: AnrlWeb.AdsChannel,
+  channel: ANVWeb.AdsChannel,
   channel_pid: #PID<0.453.0>,
-  endpoint: AnrlWeb.Endpoint,
-  handler: AnrlWeb.UserSocket,
+  endpoint: ANVWeb.Endpoint,
+  handler: ANVWeb.UserSocket,
   id: nil,
   join_ref: "5",
   joined: false,
   private: %{log_handle_in: :debug, log_join: :info},
-  pubsub_server: Anrl.PubSub,
+  pubsub_server: ANV.PubSub,
   ref: nil,
   serializer: Phoenix.Socket.V2.JSONSerializer,
   topic: "ads:changed",

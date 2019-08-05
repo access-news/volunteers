@@ -1,0 +1,39 @@
+<div id="socket_test">
+</div>
+
+<%= for { store_id, meta } <- @ads do %>
+  <section id=<%= store_id %>>
+    <h2><%= meta["store"] %></h2>
+
+    <%# TODO: %>
+    <%# Move this to the frontend, and implement a JSON API. %>
+
+    <ol>
+      <%= for { page_number, src_path } <- meta["paths"] do %>
+        <li>
+          <span
+            id=<%= store_id <> "-" <> page_number %>
+            class=<%=
+              if reserved?(meta, page_number),
+                do:   "reserved_page",
+                else: "" %>
+          >
+            Page <%= page_number %>
+            (
+            <%= link("large", to: src_path) %>, 
+            <%= link("small", to: src_small(src_path)) %>
+            )
+            <%# <%= tag(:img, [class: "ad-image", src: src_small(src_path) ]) %1> %>
+          </span>
+          <button
+            value=<%= store_id <> "-" <> page_number %>
+            class="reserve_button"
+          >
+            Reserve
+          </button>
+        </li>
+      <% end %>
+
+    </ol>
+  </section>
+<% end %>
