@@ -20,7 +20,7 @@ erl_crash.dump
 *.ez
 
 # Ignore package tarball (built via "mix hex.build").
-anrl-*.tar
+anv-*.tar
 
 # If NPM crashes, it generates a log, let's ignore it too.
 npm-debug.log
@@ -38,6 +38,7 @@ npm-debug.log
 # wreaking havoc on the system 8 times out of 10. So keeping
 # it in version control.
 .nix-shell/db/
+rebar*
 
 _ads/
 *.jpg
