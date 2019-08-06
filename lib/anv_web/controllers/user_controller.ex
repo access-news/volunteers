@@ -5,7 +5,7 @@ defmodule ANVWeb.UserController do
 
   # --- PLUGGED ----------------------------------------
 
-  plug :authenticate_user when action in [:index, :show]
+  # plug :authenticate_user when action in [:index, :show]
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -19,13 +19,13 @@ defmodule ANVWeb.UserController do
 
   # ----------------------------------------------------
 
-  # registration
+  # GET registration form
   def new(conn, _params) do
     changeset = Accounts.change_registration(%Accounts.User{}, %{})
     render(conn, "new.html", changeset: changeset)
   end
 
-  # post registration form
+  # POST registration form
   def create(conn, %{"user" => user_params}) do
     # case Accounts.create_user(user_params) do
     case Accounts.register_user(user_params) do

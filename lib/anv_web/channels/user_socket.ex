@@ -2,7 +2,7 @@ defmodule ANVWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "ads:changed", ANVWeb.AdsChannel
+  channel "ads:changed", ANVWeb.ArticlesChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After

@@ -72,7 +72,7 @@ global"), and Rebar as well (yet another).
 > that only  `./_ads/form` is in source  control. (The
 > `meta.json` files in the dirs to be precise.)
 
-3. `ANV.Ads.list()`
+3. `ANV.Articles.list()`
 
    Generate a map from `./_ads/input`'s contents, which
    structure is very close to `ads.json`'s.
@@ -103,7 +103,7 @@ global"), and Rebar as well (yet another).
    }
    ```
 
-4. `|> ANV.Ads.submit_ads()`
+4. `|> ANV.Articles.submit_ads()`
 
    Updates `ads.json` from step 3's output, and submits
    a channel  update to  the frontend. The  update only
@@ -228,7 +228,7 @@ A sample socket:
 ```elixir
 %Phoenix.Socket{
   assigns: %{},
-  channel: ANVWeb.AdsChannel,
+  channel: ANVWeb.ArticlesChannel,
   channel_pid: #PID<0.453.0>,
   endpoint: ANVWeb.Endpoint,
   handler: ANVWeb.UserSocket,

@@ -7,7 +7,7 @@ defmodule ANVWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    plug ANVWeb.Auth
+    plug ANVWeb.Auth.AssignCurrentUser
   end
 
   pipeline :api do
@@ -18,9 +18,7 @@ defmodule ANVWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    post "/reserve", PageController, :reserve
-    # post "/reserve_all", PageController, :reserve
-    # resources "/ads", AdsController, only: [:index, :new, :create, :delete]
+    # post "/reserve", PageController, :reserve
 
     # TODO:
     # Half  of "/users" resources  (i.e., :index and :show, see UserController)  needs auth.
@@ -28,19 +26,37 @@ defmodule ANVWeb.Router do
     # :show and  :index can  go under "/manage"  anyway as
     # basically  it  is  an  admin  thing.  Or  create  an
     # "/admin" scope for admin stuff?
-    resources "/users",    UserController,    only: [:index, :show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+  end
+
+  scope "/signup" do
+    # TODO add `fetch_query_params/2`?
+    pipe_through [:browser, ANVWeb.Auth.AuthenticateSignup]
+    resources "/", VolunteerController, [:new, :create]
   end
 
   # TODO:
   # route to login page (that has a "register" button as
   # well) for all anon visits to pages that require auth
 
-  scope "/manage", ANVWeb do
-    pipe_through [:browser, :authenticate_user]
+  scope "/admin", ANVWeb do
+    pipe_through [:browser, ANVWeb.Auth.AuthorizeAdmin]
 
-    resources "/recordings", RecordingController
+    # Admins should also  be able to add  new users, hence
+    # no `:only` cluase
+    resources "/users", UserController
   end
+
+  scope "/articles", ANVWeb do
+    pipe_through [:browser, ANVWeb.Auth.AuthorizeUser]
+    resources
+  end
+
+  # scope "/manage", ANVWeb do
+  #   pipe_through [:browser, ANVWeb.Auth.AuthenticateUser]
+
+  #   resources "/recordings", RecordingController
+  # end
 
   # Other scopes may use custom stacks.
   # scope "/api", ANVWeb do

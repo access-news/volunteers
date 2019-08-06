@@ -1,6 +1,6 @@
-defmodule ANV.Ads do
+defmodule ANV.Articles do
 
-  alias ANV.Ads.State
+  alias ANV.Articles.State
 
   @ads_in_dir          "_ads/input"
   @img_src_attr_prefix "/images/ads/"

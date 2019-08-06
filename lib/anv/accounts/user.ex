@@ -2,22 +2,29 @@ defmodule ANV.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  schema "users" do
-    field :name, :string
-    field :email, :string
-    field :password, :string, virtual: true
-    field :password_hash, :string
+  # TODO 2019-08-06_1003
+  # Decided  to  save  admin   and  volunteer  users  in
+  # different tables, but the bulk of the fields are the
+  # same. Use macros to remove code duplication:
+  # https://stackoverflow.com/questions/45856232/code-duplication-in-elixir-and-ecto
 
-    timestamps()
-  end
+  # embedded_schema do
+  #   field :username,      :string
+  #   field :password,      :string, virtual: true
+  #   field :password_hash, :string
+
+  #   timestamps()
+  # end
 
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :email])
-    |> validate_required([:name, :email])
-    |> unique_constraint(:email)
-    # TODO https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html#Email_Address_Validation (escpecially, normalize email addresses!)
+    |> cast(attrs, [:username])
+    |> validate_required([:username])
+    |> unique_constraint(:username)
   end
+
+  # TODO https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html#Email_Address_Validation (escpecially, normalize email addresses!)
+  # (No email yet, but may be added to enable notifications. User input needed at all? It could be pulled from the other DB.)
 
   # TODO
   # https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
@@ -34,12 +41,14 @@ defmodule ANV.Accounts.User do
   # TODO strengthen password settings in production
 
   # TODO Add password validation field next to password.
-  def registration_changeset(user, attrs) do
+
+  # `min_length` for admins will have to be significantly larger
+  def registration_changeset(user, attrs, [passwd_min_length: min]) do
     user
     |> changeset(attrs)
     |> cast(attrs, [:password])
     |> validate_required([:password])
-    |> validate_length(:password, min: 10, max: 128)
+    |> validate_length(:password, min: min, max: 128)
     |> put_passwd_hash()
   end
 

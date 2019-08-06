@@ -1,4 +1,4 @@
-defmodule ANVWeb.AdsChannel do
+defmodule ANVWeb.ArticlesChannel do
   use Phoenix.Channel
 
   def join("ads:changed", payload, socket) do
@@ -14,12 +14,12 @@ defmodule ANVWeb.AdsChannel do
 
     [store_id, page_number] = String.split(page_id, "-")
 
-    case ANV.Ads.reserve(store_id, page_number) do
+    case ANV.Articles.reserve(store_id, page_number) do
 
       :ok ->
         broadcast(socket, "reserve_page", page_id_map)
 
-      # error defined in ANV.Ads.Reserve.reserve/1
+      # error defined in ANV.Articles.Reserve.reserve/1
       {:error, event} -> 
         push(socket, event, %{ body: "Already reserved", })
     end
