@@ -48,6 +48,7 @@ defmodule ANV.Accounts.User do
     |> validate_required(fields)
 
     |> validate_length(:username, max: 27)
+    |> unique_constraint(:username)
 
     |> validate_length(:password, min: min, max: 128)
     |> put_passwd_hash()
