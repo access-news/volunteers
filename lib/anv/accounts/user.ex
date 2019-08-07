@@ -2,25 +2,21 @@ defmodule ANV.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  # TODO 2019-08-06_1003
-  # Decided  to  save  admin   and  volunteer  users  in
-  # different tables, but the bulk of the fields are the
-  # same. Use macros to remove code duplication:
   # https://stackoverflow.com/questions/45856232/code-duplication-in-elixir-and-ecto
 
-  # embedded_schema do
-  #   field :username,      :string
-  #   field :password,      :string, virtual: true
-  #   field :password_hash, :string
+  schema "users" do
+    field :username,      :string
+    field :password,      :string, virtual: true
+    field :password_hash, :string
 
-  #   timestamps()
-  # end
+    embeds_one :roles, Roles do
+      field :admin, :boolean
+      embeds_one :volunteer, Volunteer do
+        field :res_dev_id, :string
+      end
+    end
 
-  def changeset(user, attrs) do
-    user
-    |> cast(attrs, [:username])
-    |> validate_required([:username])
-    |> unique_constraint(:username)
+    timestamps()
   end
 
   # TODO https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html#Email_Address_Validation (escpecially, normalize email addresses!)
@@ -44,12 +40,40 @@ defmodule ANV.Accounts.User do
 
   # `min_length` for admins will have to be significantly larger
   def registration_changeset(user, attrs, [passwd_min_length: min]) do
+
+    fields = [:username, :password]
+
     user
-    |> changeset(attrs)
-    |> cast(attrs, [:password])
-    |> validate_required([:password])
+    |> cast(attrs, fields)
+    |> validate_required(fields)
+
+    |> validate_length(:username, max: 27)
+
     |> validate_length(:password, min: min, max: 128)
     |> put_passwd_hash()
+
+    |> cast_embed(:roles, required: true, with: &roles_changeset/2)
+  end
+
+  def roles_changeset(roles, attrs) do
+
+    fields = [:admin]
+
+    roles
+    |> cast(attrs, fields)
+    |> validate_required(fields)
+    |> cast_embed(:volunteer, required: true, with: &volunteer_changeset/2)
+  end
+
+  def volunteer_changeset(volunteer, attrs) do
+
+    fields = [:res_dev_id]
+
+    volunteer
+    |> cast(attrs, fields)
+    |> validate_required(fields)
+    # Holding off on `validate_format/4` until making sure
+    # what `:res_dev_id`s will look like.
   end
 
   defp put_passwd_hash(changeset) do

@@ -1,13 +1,13 @@
 defmodule ANV.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
-  # see TODO 2019-08-06_1003
-
   def change do
     create table(:users) do
       add :username,      :string, null: false
       add :password_hash, :string
-      # add :res_dev_id,    :string
+
+      # Could've  gone  with  other  solutions,  but  always
+      # wanted to try out JSON in PostgreSQL.
       add :roles,         :map,    null: false
 
       # {
@@ -21,6 +21,7 @@ defmodule ANV.Repo.Migrations.CreateUsers do
     end
 
     create unique_index(:users, [:username  ])
-    create unique_index(:users, [:res_dev_id])
+    # TODO: create index for res_dev_id in jsonb
+    # create unique_index(:users, [:res_dev_id])
   end
 end
