@@ -9,11 +9,9 @@ defmodule ANV.Accounts.User do
     field :password,      :string, virtual: true
     field :password_hash, :string
 
-    embeds_one :roles, Roles do
-      field :admin, :boolean
-      embeds_one :volunteer, Volunteer do
-        field :res_dev_id, :string
-      end
+    embeds_many :roles, Roles do
+      field :role,      :string # enum: ["admin", "volunteer"]
+      field :source_id, :string
     end
 
     timestamps()
@@ -58,21 +56,15 @@ defmodule ANV.Accounts.User do
 
   def roles_changeset(roles, attrs) do
 
-    fields = [:admin]
+    fields = [:role, :source_id]
 
     roles
     |> cast(attrs, fields)
     |> validate_required(fields)
-    |> cast_embed(:volunteer, required: true, with: &volunteer_changeset/2)
-  end
+    |> validate_inclusion(:role, ["admin", "volunteer"])
+    # see  TODO 2019-08-08_1109
 
-  def volunteer_changeset(volunteer, attrs) do
-
-    fields = [:res_dev_id]
-
-    volunteer
-    |> cast(attrs, fields)
-    |> validate_required(fields)
+    # TODO
     # Holding off on `validate_format/4` until making sure
     # what `:res_dev_id`s will look like.
   end

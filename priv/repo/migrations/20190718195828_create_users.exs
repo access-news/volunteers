@@ -8,20 +8,22 @@ defmodule ANV.Repo.Migrations.CreateUsers do
 
       # Could've  gone  with  other  solutions,  but  always
       # wanted to try out JSON in PostgreSQL.
-      add :roles,         :map,    null: false
+      add :roles, :map, null: false
 
       # {
-      #   "volunteer": {
-      #     "res_dev_id" : id
-      #   },
-      #   "admin": true
+      #   "role"      : "volunteer",
+      #   "source_id" : id  # res_dev
+      # },
+      # {
+      #   "role"      : "admin",
+      #   "source_id" : id  # slate
       # }
 
       timestamps()
     end
 
-    create unique_index(:users, [:username  ])
-    # TODO: create index for res_dev_id in jsonb
-    # create unique_index(:users, [:res_dev_id])
+    create unique_index(:users, [:username])
+    # TODO 2019-08-08_1109
+    # create unique index for `source_id` in jsonb
   end
 end
