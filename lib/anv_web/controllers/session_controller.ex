@@ -9,9 +9,9 @@ defmodule ANVWeb.SessionController do
   # post login form
   def create(
     conn,
-    %{"session" => %{"email" => email, "password" => passwd}}
+    %{"session" => %{"username" => username, "password" => passwd}}
   ) do
-    case ANV.Accounts.auth_by_email_and_passwd(email, passwd) do
+    case ANV.Accounts.auth_by_username_and_passwd(username, passwd) do
       {:ok, user} ->
         conn
         |> ANVWeb.Auth.login(user)

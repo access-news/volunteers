@@ -1,12 +1,14 @@
-<p>
-  If you are already registered, please log in below. Otherwise please call us at <b>916.889.7519</b> or send an email to
-  <a href="mailto:accessnews@societyfortheblind.org">accessnews@societyfortheblind.org</a>
-  . Thank you!
-</p>
-
-<%# TODO: add "leave a message" textbox. %>
-
 <section>
+  <p>
+    If you are already  registered, please log in below.
+    Otherwise please  call us at  <b>916.889.7519</b> or
+    send an email to
+    <a href="mailto:accessnews@societyfortheblind.org">accessnews@societyfortheblind.org</a>
+    . Thank you!
+  </p>
+
+  <%# TODO: add "leave a message" textbox. %>
+
   <%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
     <div>
       <%= text_input f, :username, placeholder: "username" %>

@@ -3,53 +3,25 @@ defmodule ANV.Accounts do
   The Accounts context.
   """
 
+  alias ANV.Accounts.User
   alias ANV.Repo
-  alias ANV.Accounts.{
-    Volunteer,
-    Admin
-  }
 
-  def list_volunteers do
-    Repo.all(Volunteer)
+  def list_users do
+    Repo.all(User)
   end
 
-  def list_admins do
-    Repo.all(Admin)
+  def get_user!(id) do
+    Repo.get!(User, id)
   end
 
   def get_user(id) do
-    Enum.filter(
-      [&get_volunteer/1, &get_admin/1],
-      nil,
-      fn get_fun ->
-        get_fun.(id) != nil
-      end
-    )
+    Repo.get(User, id)
   end
 
-  def get_volunteer!(id) do
-    Repo.get!(Volunteer, id)
+  def get_user_by(params) do
+    Repo.get_by(User, params)
   end
 
-  def get_volunteer(id) do
-    Repo.get(Volunteer, id)
-  end
-
-  def get_admin!(id) do
-    Repo.get!(Admin, id)
-  end
-
-  def get_admin(id) do
-    Repo.get(Admin, id)
-  end
-
-  def get_volunteer_by(params) do
-    Repo.get_by(Volunteer, params)
-  end
-
-  def get_admin_by(params) do
-    Repo.get_by(Admin, params)
-  end
 
   # Needed to render forms (until moving to a frontend framework?)
   # no args are really needed, because called with empty User struct and empty map
@@ -67,8 +39,9 @@ defmodule ANV.Accounts do
   # Clever and short again,  but not explicit. How would
   # this  be solved  in  Haskell  or Purescript?  (i.e.,
   # using category theory)
-  def auth_by_email_and_passwd(email, given_passwd) do
-    user = get_user_by(email: email)
+  def auth_by_username_and_passwd(username, given_passwd) do
+
+    user = get_user_by(username: username)
 
     cond do
       # if  user  exists, and  password is  correct,
@@ -82,7 +55,7 @@ defmodule ANV.Accounts do
         {:error, :unauthorized}
 
       # if  there  is  no existing  user  with  that
-      # email,  do a  bogus  calculation to  prevent
+      # username, do a bogus calculation to  prevent
       # timing attacks
       true ->
         Argon2.no_user_verify()
