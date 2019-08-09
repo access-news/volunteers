@@ -17,46 +17,44 @@ defmodule ANVWeb.Router do
   scope "/", ANVWeb do
     pipe_through :browser
 
+    # Only available  for volunteers; admins would  see on
+    # their pages anyway
     get "/", PageController, :index
     # post "/reserve", PageController, :reserve
 
-    # TODO:
-    # Half  of "/users" resources  (i.e., :index and :show, see UserController)  needs auth.
-    # Leave it as  it is, or split it here  in the Router instead?
-    # :show and  :index can  go under "/manage"  anyway as
-    # basically  it  is  an  admin  thing.  Or  create  an
-    # "/admin" scope for admin stuff?
-    resources "/sessions", SessionController, only: [:new, :create, :delete]
+    # The sign-in form has a checkbox if one wants to sign
+    # in as admin.
+    resources(
+      "/sessions",
+      SessionController,
+      only: [:new, :create, :delete],
+      singleton: true
+    )
   end
 
   scope "/signup" do
     # TODO add `fetch_query_params/2`?
-    pipe_through [:browser, ANVWeb.Auth.AuthenticateSignup]
-    resources "/", VolunteerController, [:new, :create]
-  end
+    # TODO implement AuthenticateSignup
 
-  # TODO:
-  # route to login page (that has a "register" button as
-  # well) for all anon visits to pages that require auth
+    # Could've just  put this  in the  "/" scope  and plug
+    # `AuthenticateSignup` in `SignupController`, but this
+    # way I can see quickly  what auth plugs are there and
+    # at what points.
+    pipe_through [:browser, ANVWeb.Auth.AuthenticateSignup]
+    resources "/", SignupController, [:new, :create]
+  end
 
   scope "/admin", ANVWeb do
     pipe_through [:browser, ANVWeb.Auth.AuthorizeAdmin]
 
-    # Admins should also  be able to add  new users, hence
-    # no `:only` cluase
-    resources "/users", UserController
+    # NOTE on adding users:
+    # when  adding volunteers,  just specify  `res_dev_id`
+    # and email address to create signup link and email it
+    # to them.
+    get "/", AdminController, :index
+    resources "/users",    UserController
+    resources "/articles", ArticleController
   end
-
-  scope "/articles", ANVWeb do
-    pipe_through [:browser, ANVWeb.Auth.AuthorizeUser]
-    resources
-  end
-
-  # scope "/manage", ANVWeb do
-  #   pipe_through [:browser, ANVWeb.Auth.AuthenticateUser]
-
-  #   resources "/recordings", RecordingController
-  # end
 
   # Other scopes may use custom stacks.
   # scope "/api", ANVWeb do

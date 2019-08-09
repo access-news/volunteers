@@ -8,15 +8,41 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
+    <%# TODO: %>
+    <%# Render the  header and nav  side by side  (header to %>
+    <%# the left, nav to the right) %>
     <header>
       <h1>The Reading List</h1>
       <p>Content that awaits to be read by Access News volunteers</p>
     </header>
+    <nav>
+      <ol>
+        <li>
+          <%# TODO: make it a link to the user profile %>
+          <%= username(@conn) %>
+        </li>
+        <li>
+          <%= case ANVWeb.Auth.signed_in?(@conn) do %>
+            <%= true  -> %>
+              <%= button("Logout", to: "/sessions", method: "delete") %>
+            <%= false -> %>
+              <%= "" %>
+          <% end %>
+        </li>
+        <li>
+          <%= button("Admin Tools", to: "/admin", method: "get", disabled: !ANVWeb.Auth.is_admin?(@conn)) %>
+
+        </li>
+      </ol>
+    </nav>
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
+    <footer>
+      <%# TODO: contact info, license, project source link etc. %>
+    </footer>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>

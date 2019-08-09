@@ -22,6 +22,13 @@ defmodule ANV.Accounts do
     Repo.get_by(User, params)
   end
 
+  def get_roles(user) do
+    Enum.map(user.roles, &Map.get(&1, :role))
+  end
+
+  def is_admin?(user) do
+    "admin" in ANV.Accounts.get_roles(user)
+  end
 
   # Needed to render forms (until moving to a frontend framework?)
   # no args are really needed, because called with empty User struct and empty map

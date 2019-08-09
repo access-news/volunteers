@@ -9,6 +9,10 @@
 
   <%# TODO: add "leave a message" textbox. %>
 
+  <%# TODO: %>
+  <%# Focus  on   input  fields  on  load.   When  invalid %>
+  <%# credentials, do the same. %>
+
   <%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
     <div>
       <%= text_input f, :username, placeholder: "username" %>

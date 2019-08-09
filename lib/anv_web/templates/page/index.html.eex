@@ -1,5 +1,21 @@
+<%# TODO: Understand views and templates because the answers and what I read in the docs doesn't add up. (E.g., Phoenix.View.render(AppWeb.AView, "template.html") will fail to run) %>
 
-<%# TODO: `render` session/new.html here %>
+<%# https://stackoverflow.com/questions/32784008/phoenix-render-template-of-other-folder %>
+<%# https://hexdocs.pm/phoenix/views.html %>
+<%# https://hexdocs.pm/phoenix/templates.html %>
+
+<%# And just how many goddamn `render` functions are there? Phoenix.Controller and Phoenix.View has them, and on `use` there will be more, plus see before_compile clauses as well. %>
+<%# Someone else was having this same question: %>
+<%# https://stackoverflow.com/questions/43382984/difference-between-render-functions-in-phoenix %>
+
+<%# The view guide above is pretty helpful and now has a section on how to look into called functions. Work through them. %>
+
+<%= if @user == nil,
+      do: render(ANVWeb.SessionView, "new.html", assigns),
+      else: "" %>
+
+<%# TODO: make top menu bar ("dock") %>
+<%# TODO: admin button on "dock" %>
 
 <%# <div id="socket_test"> %>
 <%# </div> %>
