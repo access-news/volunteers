@@ -1,0 +1,3 @@
+
+<%# <%= render(ANVWeb.AdsView, "new.html", assigns) %1> %>
+<%= link("Add new store", to: Routes.ads_path(@conn, :new)) %>

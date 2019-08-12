@@ -1,0 +1,34 @@
+
+<%= form_for \
+      @changeset,
+      Routes.ads_path(@conn, :create),
+      [multipart: true],
+      fn f -> %>
+
+      <div>
+        <%= text_input f, :store_id, placeholder: "Store ID" %>
+        <%= error_tag f, :store_id %>
+      </div>
+      <div>
+        <%= text_input f, :store_name, placeholder: "Name of store chain" %>
+        <%= error_tag f, :store_name %>
+      </div>
+      <div>
+        <%= label(f, :valid_from, "Valid from:") %>
+        <%= custom_datetime_select f, :valid_from %>
+      </div>
+      <div>
+        <%= label(f, :valid_to, "Valid to:") %>
+        <%= custom_datetime_select f, :valid_to %>
+      </div>
+      <div>
+        <%= file_input(
+              f,
+              :ad_images,
+              placeholder: "Ad images",
+              multiple: true) %>
+      </div>
+      <div>
+        <%= submit "Submit" %>
+      </div>
+<% end %>

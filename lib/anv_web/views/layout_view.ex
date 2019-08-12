@@ -4,6 +4,7 @@ defmodule ANVWeb.LayoutView do
   def username(conn) do
     user = conn.assigns.current_user
     user && user.username || ""
+
     # nil   && _user    || "" => ""
     # %..{} && username || "" => username
   end

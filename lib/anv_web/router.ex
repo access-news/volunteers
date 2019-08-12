@@ -51,8 +51,13 @@ defmodule ANVWeb.Router do
     # when  adding volunteers,  just specify  `res_dev_id`
     # and email address to create signup link and email it
     # to them.
+
     get "/", AdminController, :index
+
+    # TODO Cull these resources with `:only`
+
     resources "/users",    UserController
+    resources "/ads",      AdsController
     resources "/articles", ArticleController
   end
 
