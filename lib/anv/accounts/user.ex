@@ -11,7 +11,7 @@ defmodule ANV.Accounts.User do
 
     embeds_many :roles, Roles do
       field :role,      :string # enum: ["admin", "volunteer"]
-      field :source_id, :string
+      field :source_id, :string # slate for admin, resdev for volunteer
     end
 
     timestamps()

@@ -1,24 +1,27 @@
 <h1>Users</h1>
 
 <section>
-  <h2>Volunteers</h2>
+  <div>
+    <%= button "Add new user", to: Routes.user_path(@conn, :new), method: "get" %>
+  </div>
+  <%# TODO 2019-08-13_1313 %>
   <table>
+    <tr>
+      <th scope="col">User ID</th>
+      <th scope="col">Username</th>
+      <th scope="col">Roles</th>
+      <th scope="col">Actions</th>
+    </tr>
     <%= for user <- @users do %>
       <tr>
-        <td><%= render "user.html", user: user %></td>
-        <td><%= link "View", to: Routes.user_path(@conn, :show, user.id) %></td>
-      </tr>
-    <% end %>
-  </table>
-</section>
-
-<section>
-  <h2>Admins</h2>
-  <table>
-    <%= for user <- @users do %>
-      <tr>
-        <td><%= render "user.html", user: user %></td>
-        <td><%= link "View", to: Routes.user_path(@conn, :show, user.id) %></td>
+        <td><%= user.id %></td>
+        <td><%= user.username %></td>
+        <td><%= roles(user) %></td>
+        <td>
+          <span><%= button "View", to: Routes.user_path(@conn, :show, user.id), method: "get" %></span>
+          <span><%= button "Edit", to: Routes.user_path(@conn, :edit, user.id), method: "get" %></span>
+          <span><%= button "Delete", to: Routes.user_path(@conn, :delete, user.id), method: "delete" %></span>
+        </td>
       </tr>
     <% end %>
   </table>

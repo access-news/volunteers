@@ -17,11 +17,20 @@ defmodule ANVWeb.UserController do
     render(conn, "show.html", user: user)
   end
 
+  def delete(conn, %{ "id" => id }) do
+    Accounts.delete_user!(id)
+    redirect(conn, to: Routes.user_path(conn, :index))
+  end
+
+  def edit(conn, params) do
+    require IEx; IEx.pry
+  end
+
   # ----------------------------------------------------
 
   # GET registration form
   def new(conn, _params) do
-    changeset = Accounts.change_registration(%Accounts.User{}, %{})
+    changeset = Accounts.change_registration(%{})
     render(conn, "new.html", changeset: changeset)
   end
 
