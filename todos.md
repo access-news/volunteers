@@ -98,3 +98,20 @@ def delete_user(id) do
   |> Repo.delete()
 end
 ```
+## 2019-08-13_1501 Implement signup link
+
+The idea is to send dedicated signup links to users.
+[My approach](https://stackoverflow.com/questions/57399151/how-to-craft-a-dedicated-signup-link):
+
+  1. generate a token on the backend,
+
+  2. hide it in the sign up form,
+
+  3. attach a timer to the token,
+
+  4. attach the token in a query string to a valid route,
+ e.g., `http://example.com/signup?token=1020a9e4-476a-4f74-b93a-b469d225dac0`
+
+  5. send it in an email,
+
+  6. and when that person registers, just extract the token from the form data.
