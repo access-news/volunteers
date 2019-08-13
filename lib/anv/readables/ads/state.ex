@@ -1,4 +1,4 @@
-defmodule ANV.Articles.State do
+defmodule ANV.Ads.State do
   use Agent
 
   @ads_json_location   "_ads/ads.json"

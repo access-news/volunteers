@@ -14,7 +14,8 @@ defmodule ANV.Application do
       ANVWeb.Endpoint,
       # Starts a worker by calling: ANV.Worker.start_link(arg)
       # {ANV.Worker, arg},
-      ANV.Articles.State,
+
+      # ANV.Articles.State,
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
