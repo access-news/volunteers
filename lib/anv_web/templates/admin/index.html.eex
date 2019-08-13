@@ -1,1 +1,8 @@
 <h2>Welcome to the admin page!</h2>
+
+<div>
+  <%= link("Ads", to: Routes.ads_path(@conn, :index)) %>
+</div>
+<div>
+  <%= link("Users", to: Routes.user_path(@conn, :index)) %>
+</div>
