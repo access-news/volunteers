@@ -1,17 +1,10 @@
+<h2>Update <%= @changeset.data.store_name %> (<%= @changeset.data.store_id %>)</h2>
 <%= form_for \
       @changeset,
       Routes.ads_path(@conn, :create),
       [multipart: true],
       fn f -> %>
 
-      <div>
-        <%= text_input f, :store_id, placeholder: "Store ID" %>
-        <%= error_tag f, :store_id %>
-      </div>
-      <div>
-        <%= text_input f, :store_name, placeholder: "Name of store chain" %>
-        <%= error_tag f, :store_name %>
-      </div>
       <div>
         <%= label(f, :valid_from, "Valid from:") %>
         <%= custom_datetime_select f, :valid_from %>

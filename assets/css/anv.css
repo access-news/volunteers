@@ -8,6 +8,10 @@ button {
   margin-left: 1em;
 }
 
+img {
+  border: 1rem solid;
+}
+
 ol {
   list-style-type: none;
 }
@@ -57,7 +61,7 @@ th {
 td {
   text-align: center;
   /* https://stackoverflow.com/questions/10937218/how-to-show-multiline-text-in-a-table-cell */
-  white-space: pre
+  /* white-space: pre */
 }
 
 tr:nth-child(even) td {

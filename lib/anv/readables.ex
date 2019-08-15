@@ -7,11 +7,6 @@ defmodule ANV.Readables do
   alias ANV.Readables.Ads.Ad
   alias ANV.Repo
 
-  def change_ad_submission(ad \\ %Ad{}, params)
-  def change_ad_submission(%Ad{} = ad, params) do
-    Ad.ads_changeset(ad, params)
-  end
-
   def list_ads() do
     Repo.all(Ad)
   end
@@ -28,7 +23,42 @@ defmodule ANV.Readables do
     Repo.get_by(Ad, params)
   end
 
+  def delete_ad!(id) do
+    id
+    |> get_ad!()
+    |> Ads.delete_section_images()
+    |> Repo.delete!()
+  end
+
+  def delete_all() do
+    list_ads()
+    |> Enum.each(&Ads.delete_section_images/1)
+
+    Repo.delete_all(Ad)
+  end
+
+  def reset_ad(ad) do
+    update_ad(
+      ad,
+      %{
+        valid_from: nil,
+        valid_to:   nil,
+        sections:   []
+      }
+    )
+  end
+
+  def reset_all() do
+    list_ads()
+    |> Enum.each(&reset_ad/1)
+  end
+
   # NOTE 2019-08-13_1001
+
+  def change_ad_submission(ad \\ %Ad{}, params)
+  def change_ad_submission(%Ad{} = ad, params) do
+    Ad.ads_changeset(ad, params)
+  end
 
   # If  only the  `store_id` and  `store_name` keys  are
   # provided then only a new store entry is added.
@@ -38,8 +68,10 @@ defmodule ANV.Readables do
     |> Repo.insert()
   end
 
-  def update_ads(ad_submission) do
-    # Ads.delete_previous_images(store_id)
-    # Repo.update(new_ad)
+  def update_ad(ad, update) do
+    ad
+    |> Ads.delete_section_images()
+    |> Ecto.Changeset.change(update)
+    |> Repo.update()
   end
 end

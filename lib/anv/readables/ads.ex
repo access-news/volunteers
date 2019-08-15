@@ -5,9 +5,13 @@ defmodule ANV.Readables.Ads do
   alias __MODULE__.Ad
 
   @ads_in_dir          "_ads/input"
-  @img_src_attr_prefix "/images/ads/"
-  @ads_out_dir         Path.join("priv/static", @img_src_attr_prefix)
+  @img_src_attr_prefix "/images/"
+  @ads_out_dir  \
+    "priv/static"
+    |> Path.join(@img_src_attr_prefix)
+    |> Path.expand()
 
+  def out, do: @ads_out_dir
   # TODO 2019-08-02_1646
   # Implement  the  warning  when  the  close  proximity
   # reserves happens.  ("We are  sorry, but  someone was
@@ -70,21 +74,9 @@ defmodule ANV.Readables.Ads do
     )
   end
 
-  def load_ads() do
-    # TODO put the entire state in agent? 
-    # Agent.get(State, &(&1))
-    Repo.all(Ad)
-  end
-
-  def save_ads(map) do
-    Agent.update(State, fn _state -> map end)
-  end
-
   # Only  deleting images  that  will be  updated.
   # `ads.json` will be updated by `process_submitted/2`
-  defp delete_previous_images(store_id) do
-
-    ad = Readables.get_ad_by(store_id: store_id)
+  def delete_section_images(ad) do
 
     Enum.each(
       ad.sections,
@@ -99,9 +91,11 @@ defmodule ANV.Readables.Ads do
         |> File.rm!()
       end
     )
+
+    ad
   end
 
-  defp make_smalljpg_path(path) do
+  def make_smalljpg_path(path) do
     Path.rootname(path) <> "-small.jpg"
   end
 
@@ -152,17 +146,19 @@ defmodule ANV.Readables.Ads do
   end
 
   defp generate_new_filenames(
-    %{ src_path: src_path } = map
+    %{ content_type: content_type } = map
   ) do
 
-    extname = Path.extname(src_path)
+    extname = content_type |> String.split("/") |> List.last()
 
     destination_path =
-      @ads_out_dir
-      |> Path.join( Ecto.UUID.generate() )
-      |> (&<>/2).(extname)
+      Enum.join([
+        Path.join( @ads_out_dir, Ecto.UUID.generate() ),
+        ".",
+        extname
+      ])
 
-    Map.update(map, :path, destination_path)
+    Map.put(map, :path, destination_path)
   end
 
   defp persist_images(
@@ -177,14 +173,21 @@ defmodule ANV.Readables.Ads do
     # Converts  an  image  to reduced  quality  (and  file
     # sized) JPG to a predefined output directory.
     # https://stackoverflow.com/questions/2257322
-    System.cmd(
-      "magick",
-      [ "convert",
-        src_path,
-        "-quality",
-        "7",
-        make_smalljpg_path(destination_path)
-      ]
+
+    # TODO 2019-08=13_1826 implement `Task` supervisor
+
+    Task.start(
+      fn ->
+        System.cmd(
+          "magick",
+          [ "convert",
+            destination_path,
+            "-quality",
+            "7",
+            make_smalljpg_path(destination_path)
+          ]
+        )
+      end
     )
 
     map

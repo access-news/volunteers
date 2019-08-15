@@ -12,4 +12,11 @@ defmodule ANVWeb.AdsView do
 
     datetime_select(form, field, [builder: builder] ++ opts)
   end
+
+  def make_smalljpg_static_path(path) do
+    path
+    |> String.split("static")
+    |> List.last()
+    |> ANV.Readables.Ads.make_smalljpg_path()
+  end
 end

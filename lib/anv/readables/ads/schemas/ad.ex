@@ -10,7 +10,9 @@ defmodule ANV.Readables.Ads.Ad do
     field :valid_from, :date
     field :valid_to,   :date
 
-    embeds_many :sections, Sections do
+    embeds_many :sections, Sections,
+      on_replace: :delete
+    do
       field :section_id,   :integer
       field :path,         :string
       field :reserved,     :boolean
@@ -33,14 +35,18 @@ defmodule ANV.Readables.Ads.Ad do
     # false, then do not  start copying and reducing files
     # in `ads.ex`!
 
-    fields = [
+    req_fields = [
       :store_id,
       :store_name,
     ]
 
+    fields =
+      req_fields
+      ++ [:valid_from, :valid_to]
+
     ads
     |> cast(attrs, fields)
-    |> validate_required(fields)
+    |> validate_required(req_fields)
     |> unique_constraint(:store_id)
     |> unique_constraint(:store_name)
 

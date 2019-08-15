@@ -1,0 +1,5 @@
+<%= for %{ path: path } <- @sections do %>
+  <span>
+    <%= tag(:img, [ src: make_smalljpg_static_path(path), width: 250 ]) %>
+  </span>
+<% end %>

@@ -1,3 +1,39 @@
 
 <%# <%= render(ANVWeb.AdsView, "new.html", assigns) %1> %>
 <%= link("Add new store", to: Routes.ads_path(@conn, :new)) %>
+<table>
+
+  <tr>
+    <th scope="col">Store ID</th>
+    <th scope="col">Store Name</th>
+    <th scope="col">Ad images</th>
+    <th scope="col">Valid from</th>
+    <th scope="col">Valid to</th>
+    <th scope="col">Actions</th>
+  </tr>
+
+  <%= for ad <- @ads do %>
+    <tr>
+      <td><%= ad.store_id %></td>
+      <td><%= ad.store_name %></td>
+      <td>
+        <%= for %{ section_id: section_id, path: path } <- ad.sections do %>
+          <span>
+            <%= link(
+                  to_string(section_id),
+                  to: make_smalljpg_static_path(path)
+                )
+            %>
+          </span>
+        <% end %>
+      </td>
+      <td><%= ad.valid_from %></td>
+      <td><%= ad.valid_to %></td>
+      <td>
+        <span><%= link "View", to: Routes.ads_path(@conn, :show, ad.id) %></span>
+        <span><%= link "Edit", to: Routes.ads_path(@conn, :edit, ad.id) %></span>
+        <span><%= link "Delete", to: Routes.ads_path(@conn, :delete, ad.id), method: "delete" %></span>
+      </td>
+    </tr>
+  <% end %>
+</table>

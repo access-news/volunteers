@@ -18,9 +18,9 @@
         <td><%= user.username %></td>
         <td><%= roles(user) %></td>
         <td>
-          <span><%= button "View", to: Routes.user_path(@conn, :show, user.id), method: "get" %></span>
-          <span><%= button "Edit", to: Routes.user_path(@conn, :edit, user.id), method: "get" %></span>
-          <span><%= button "Delete", to: Routes.user_path(@conn, :delete, user.id), method: "delete" %></span>
+          <span><%= link "View", to: Routes.user_path(@conn, :show, user.id) %></span>
+          <span><%= link "Edit", to: Routes.user_path(@conn, :edit, user.id) %></span>
+          <span><%= link "Delete", to: Routes.user_path(@conn, :delete, user.id), method: "delete" %></span>
         </td>
       </tr>
     <% end %>
