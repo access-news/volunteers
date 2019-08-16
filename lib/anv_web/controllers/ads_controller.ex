@@ -60,90 +60,89 @@ defmodule ANVWeb.AdsController do
   def create( conn,
     %{
       "ad" => %{
-        "store_id"   => store_id,
         "store_name" => store_name,
         "valid_from" => valid_from,
         "valid_to"   => valid_to,
         # "ad_images"  => uploaded_images,
-      } = new_ad
+      } = ad_input
     }
   ) do
 
     # TODO 2019-08-13_0951 How to handle reserved ads on update
-
-    can_add_store? =
-      Readables.add_store(
-        %{
-          store_id:   store_id,
-          store_name: store_name
-        }
-      )
-
+    # TODO: track upload progress
     # NOTE 2019-08-14_1556 (reason for all the date stuff)
-    { date_tuples, dates_map } =
-      Enum.reduce(
-        %{
-          valid_from: valid_from,
-          valid_to:   valid_to
-        },
-        { %{}, %{} },
-        fn { key, input_date }, { t, m } ->
 
-          date_tuple = map_to_date_tuple(input_date)
+    case Readables.get_ad_by(store_name: store_name) do
 
-          new_t = Map.put(t, key, date_tuple)
+      %{ store_name: store_name } ->
+        conn
+        |> put_flash(:error, "\"#{store_name}\" already taken")
+        |> redirect(to: Routes.ads_path(conn, :new))
 
-          new_m =
-            Map.put(
-              m,
-              key,
-              Date.from_erl!(date_tuple)
-            )
+      nil ->
+        { date_tuples, dates_map } =
+          Enum.reduce(
+            %{
+              valid_from: valid_from,
+              valid_to:   valid_to
+            },
+            { %{}, %{} },
+            fn { key, input_date }, { t, m } ->
 
-          { new_t, new_m }
-        end
-      )
+              date_tuple = map_to_date_tuple(input_date)
 
-    case can_add_store? do
+              new_t = Map.put(t, key, date_tuple)
 
-      {:ok, ad} ->
+              new_m =
+                Map.put(
+                  m,
+                  key,
+                  Date.from_erl!(date_tuple)
+                )
+
+              { new_t, new_m }
+            end
+          )
 
         sections =
-          Readables.Ads.massage(
+          Readables.Ads.process(
             # if no images uploaded, just process an empty list
-            Map.get(new_ad, "ad_images", []),
+            Map.get(ad_input, "ad_images", []),
             with: &parse_upload/1
           )
 
-        update =
+        new_ad =
           Map.merge(
             dates_map,
-            %{ sections: sections }
-          )
-
-        # TODO: deal with an error
-        # TODO: track upload progress
-        Readables.update_ad(ad, update)
-
-        redirect(conn, to: Routes.ads_path(conn, :index))
-
-      {:error, changeset} ->
-
-        # NOTE 2019-08-15_0645 ditch eex and changesets validation
-        new_changeset =
-          Ecto.Changeset.change(
-            changeset,
             %{
-              valid_from: date_tuples.valid_from,
-              valid_to:   date_tuples.valid_to,
+              sections: sections,
+              store_name: store_name,
             }
           )
 
-        render(conn, "new.html", changeset: new_changeset)
+        case Readables.add_store(new_ad) do
+
+          {:ok, ad} ->
+            redirect(conn, to: Routes.ads_path(conn, :index))
+
+          {:error, changeset} ->
+
+            # NOTE 2019-08-15_0645 ditch eex and changesets validation
+            new_changeset =
+              Ecto.Changeset.change(
+                changeset,
+                %{
+                  valid_from: date_tuples.valid_from,
+                  valid_to:   date_tuples.valid_to,
+                }
+              )
+
+            render(conn, "new.html", changeset: new_changeset)
+        end
     end
   end
 
-  # See `ANV.Readables.Ads.massage/2` on what the parser
+  # See `ANV.Readables.Ads.process/2` on what the parser
   # should conform to.
   defp parse_upload(
     %Plug.Upload{
