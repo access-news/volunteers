@@ -5,7 +5,6 @@ defmodule ANV.Readables.Ads.Ad do
   # NOTE 2019-08-13_0954 schema justification
 
   schema "ads" do
-    field :store_id,   :string
     field :store_name, :string
     field :valid_from, :date
     field :valid_to,   :date
@@ -36,7 +35,6 @@ defmodule ANV.Readables.Ads.Ad do
     # in `ads.ex`!
 
     req_fields = [
-      :store_id,
       :store_name,
     ]
 
@@ -47,7 +45,6 @@ defmodule ANV.Readables.Ads.Ad do
     ads
     |> cast(attrs, fields)
     |> validate_required(req_fields)
-    |> unique_constraint(:store_id)
     |> unique_constraint(:store_name)
 
     |> cast_embed(

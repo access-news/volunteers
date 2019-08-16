@@ -60,8 +60,8 @@ defmodule ANV.Readables do
     Ad.ads_changeset(ad, params)
   end
 
-  # If  only the  `store_id` and  `store_name` keys  are
-  # provided then only a new store entry is added.
+  # Only   a  new   store  entry   is  added,   if  only
+  # `store_name` is specified.
   def add_store(new_ad) do
     new_ad
     |> change_ad_submission()

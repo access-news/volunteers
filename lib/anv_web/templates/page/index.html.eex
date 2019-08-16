@@ -9,6 +9,11 @@
 <%# <div id="socket_test"> %>
 <%# </div> %>
 
+<%# NOTE: WARNING %>
+<%# `store_id` is  not stored in  the DB anymore!  It is %>
+<%# generated from  `store_name` via %> 
+<%# `:crypto.hash(:md5, store_name) |> Base.encode16()` %>
+
 <%# <%= for { store_id, meta } <- @ads do %1> %>
 <%#   <section id=<%= store_id %1>> %>
 <%#     <h2><%= meta["store"] %1></h2> %>

@@ -12,7 +12,6 @@ validity runs out, it should simply be reset.
 
 ```elixir
 schema "ads" do
-  field :store_id,   :string
   field :store_name, :string
   # --------------------------------------------------
   field :valid_from, :date

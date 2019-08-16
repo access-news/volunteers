@@ -4,7 +4,6 @@ defmodule ANV.Repo.Migrations.CreateAds do
   def change do
 
     create table("ads") do
-      add :store_id,   :string, null: false
       add :store_name, :string, null: false
       add :valid_from, :date
       add :valid_to,   :date
@@ -29,7 +28,6 @@ defmodule ANV.Repo.Migrations.CreateAds do
       timestamps()
     end
 
-    create unique_index(:ads, [:store_id])
     create unique_index(:ads, [:store_name])
   end
 end

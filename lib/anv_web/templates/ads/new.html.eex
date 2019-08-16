@@ -5,10 +5,6 @@
       fn f -> %>
 
       <div>
-        <%= text_input f, :store_id, placeholder: "Store ID" %>
-        <%= error_tag f, :store_id %>
-      </div>
-      <div>
         <%= text_input f, :store_name, placeholder: "Name of store chain" %>
         <%= error_tag f, :store_name %>
       </div>

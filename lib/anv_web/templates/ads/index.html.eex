@@ -4,7 +4,6 @@
 <table>
 
   <tr>
-    <th scope="col">Store ID</th>
     <th scope="col">Store Name</th>
     <th scope="col">Ad images</th>
     <th scope="col">Valid from</th>
@@ -14,7 +13,6 @@
 
   <%= for ad <- @ads do %>
     <tr>
-      <td><%= ad.store_id %></td>
       <td><%= ad.store_name %></td>
       <td>
         <%= for %{ section_id: section_id, path: path } <- ad.sections do %>
