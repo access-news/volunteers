@@ -17,6 +17,6 @@ defmodule ANVWeb.AdsView do
     path
     |> String.split("static")
     |> List.last()
-    |> ANV.Readables.Ads.make_smalljpg_path()
+    |> Utility.make_smalljpg_path()
   end
 end

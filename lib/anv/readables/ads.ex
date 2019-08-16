@@ -11,7 +11,6 @@ defmodule ANV.Readables.Ads do
     |> Path.join(@img_src_attr_prefix)
     |> Path.expand()
 
-  def out, do: @ads_out_dir
   # TODO 2019-08-02_1646
   # Implement  the  warning  when  the  close  proximity
   # reserves happens.  ("We are  sorry, but  someone was
@@ -75,7 +74,6 @@ defmodule ANV.Readables.Ads do
   end
 
   # Only  deleting images  that  will be  updated.
-  # `ads.json` will be updated by `process_submitted/2`
   def delete_section_images(ad) do
 
     Enum.each(
@@ -84,19 +82,10 @@ defmodule ANV.Readables.Ads do
 
         # delete full res image
         File.rm!(path)
-
-        # delete small version
-        path
-        |> make_smalljpg_path()
-        |> File.rm!()
       end
     )
 
     ad
-  end
-
-  def make_smalljpg_path(path) do
-    Path.rootname(path) <> "-small.jpg"
   end
 
   @doc """
@@ -123,7 +112,7 @@ defmodule ANV.Readables.Ads do
   }
   ```
   """
-  def massage(submitted_sections, with: section_parser) do
+  def process(submitted_sections, with: section_parser) do
 
     # TODO: validate file type
     # This  should  probably  be  done  here  and  on  the
@@ -169,26 +158,6 @@ defmodule ANV.Readables.Ads do
   ) do
 
     File.cp!(src_path, destination_path)
-
-    # Converts  an  image  to reduced  quality  (and  file
-    # sized) JPG to a predefined output directory.
-    # https://stackoverflow.com/questions/2257322
-
-    # TODO 2019-08=13_1826 implement `Task` supervisor
-
-    Task.start(
-      fn ->
-        System.cmd(
-          "magick",
-          [ "convert",
-            destination_path,
-            "-quality",
-            "7",
-            make_smalljpg_path(destination_path)
-          ]
-        )
-      end
-    )
 
     map
   end

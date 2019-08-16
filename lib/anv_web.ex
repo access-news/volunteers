@@ -25,6 +25,7 @@ defmodule ANVWeb do
       import ANVWeb.Gettext
       # import ANVWeb.Auth, only: [authenticate_user: 2]
       alias ANVWeb.Router.Helpers, as: Routes
+      alias ANVWeb.Utility
     end
   end
 
@@ -43,6 +44,7 @@ defmodule ANVWeb do
       import ANVWeb.ErrorHelpers
       import ANVWeb.Gettext
       alias ANVWeb.Router.Helpers, as: Routes
+      alias ANVWeb.Utility
     end
   end
 

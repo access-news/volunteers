@@ -83,3 +83,32 @@ persistence.
 
 So switch to  a frontend framework (will  need to do
 it anyways).
+
+## 2019-08-16_1142 On the ImageMagick `Task`s
+
+The   task   itself   is  to   converts   an   image
+to   reduced   quality    (and   file   sized)   JPG
+to   a  predefined   output   directory  (see   also
+https://stackoverflow.com/questions/2257322   ),  to
+reduce loading  time. (Still too big  though and not
+very adaptive.)
+
+Initially started  using `Task.start/1`  because the
+conversion took  too long  and basically  the upload
+process  would time  out,  discarding the  remaining
+unprocessed  files  (and  commands).  `Task.start/1`
+starts unlinked  processes to  do the  conversion (a
+side  effect),  so that  seemed  to  help, but  this
+entire  thing turned  out  to  me a  `live_reloader`
+issue  (maybe  because  images have  been  moved  to
+`priv/static/images/`?).
+
+Anyway, it helps speeding things up.
+
+### Why moving it from `Ads` to `AdsController`?
+
+`Ads` is  part of  the `Readables` context  in `ANV`
+(backend), and  `AdsController` belongs  to `ANVWeb`
+(frontend).  Moved  it  because  load  times  are  a
+concern for the frontend,  and the ImageMagick tasks
+are an optimization for this.

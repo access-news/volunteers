@@ -116,18 +116,4 @@ The idea is to send dedicated signup links to users.
 
   6. and when that person registers, just extract the token from the form data.
 
-## 2019-08=13_1826 implement `Task` supervisor
-
-Using `Task.start/1` because the conversion took too
-long  and basically  the upload  process would  time
-out,  discarding  the remaining  unprocessed  files.
-`Task.start/1` starts  unlinked processes to  do the
-conversion (a side effect).
-
-> UPDATE:
-> That   seemed  to   the  issue   of  `live_reloader`
-> (maybe   because   images   have   been   moved   to
-> `priv/static/images/`?)
-
-Nevertheless, it would probably be better to make a `Task` supervisor, because right 
-
+##

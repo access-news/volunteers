@@ -123,6 +123,25 @@ defmodule ANVWeb.AdsController do
         case Readables.add_store(new_ad) do
 
           {:ok, ad} ->
+
+            # NOTE 2019-08-16_1142 On the ImageMagick `Task`s
+
+            for %{ path: path } <- ad.sections do
+              Task.start(
+                fn ->
+                  System.cmd(
+                    "magick",
+                    [ "convert",
+                      path,
+                      "-quality",
+                      "7",
+                      Utility.make_smalljpg_path(path)
+                    ]
+                  )
+                end
+              )
+            end
+
             redirect(conn, to: Routes.ads_path(conn, :index))
 
           {:error, changeset} ->
