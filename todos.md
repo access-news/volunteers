@@ -1,5 +1,30 @@
 # TODOs
 
+## 2019-08-17_0735 Add tests
+
++ https://elixirschool.com/en/lessons/basics/testing/
++ https://spin.atomicobject.com/2018/10/22/elixir-test-multiple-environments/
++ https://spin.atomicobject.com/2017/12/27/elixir-mox-introduction/
++ https://paulhoffer.com/2018/03/22/easy-session-testing-in-phoenix-and-plug.html
++ http://blog.plataformatec.com.br/2016/01/writing-acceptance-tests-in-phoenix/
++ https://semaphoreci.com/community/tutorials/end-to-end-testing-in-elixir-with-hound
++ https://semaphoreci.com/community/tutorials/introduction-to-testing-elixir-applications-with-exunit
++ https://semaphoreci.com/community/tutorials/test-driven-apis-with-phoenix-and-elixir
++ https://elixirforum.com/t/regression-testing/7565
++ https://www.google.com/search?q=acceptance+vs+integration+tests&oq=acceptance+vs+inte&aqs=chrome.0.0j69i57.4089j0j7&sourceid=chrome&ie=UTF-8
++ https://stackoverflow.com/questions/4904096/whats-the-difference-between-unit-functional-acceptance-and-integration-test
+
++ https://elixirforum.com/t/wallaby-vs-hound/443
++ https://github.com/HashNuke/hound
++ https://github.com/keathley/wallaby
++ https://keathley.io/elixir/wallaby/2018/08/10/wallaby-is-looking-for-new-maintainers.html
+
++ https://www.google.com/search?q=elixir+testing+puppeteer&oq=elixir+testing+puppeteer&aqs=chrome..69i57j69i64l2.6997j0j7&sourceid=chrome&ie=UTF-8
++ https://ropig.com/blog/end-end-tests-dont-suck-puppeteer/
++ https://hexdocs.pm/phoenix/testing_schemas.html#content
++ https://hexdocs.pm/ex_unit/ExUnit.html#content
++ https://hexdocs.pm/phoenix/Phoenix.ConnTest.html?#html_response/2
+
 ## 2019-08-12_0710 Per route page titles
 
 [This SO thread](https://stackoverflow.com/questions/42362376/phoenix-framework-page-titles-per-route)
@@ -154,3 +179,5 @@ There   is  a   lot   of   duplicate  code   between
 `Ads`  templates  `:new`  and `:edit`,  and  between
 `AdsController` functions `new/2` and `edit/2` (also
 between `create/2` and `update/2`).
+
+##

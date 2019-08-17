@@ -2,7 +2,7 @@ import Config
 
 # Configure your database
 config :anv, ANV.Repo,
-  username: "postgres",
+  username: "toraritte",
   password: "postgres",
   database: "anv_test",
   hostname: "localhost",
