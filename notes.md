@@ -113,3 +113,13 @@ Anyway, it helps speeding things up.
 concern for the frontend,  and the ImageMagick tasks
 are an optimization for this.
 
+## 2019-08-17_0756 Why the media context?
+
+Originally,  this  was  created when  following  the
+examples  in Programming  Phoenix  1.4. Access  News
+only has recordings at the moment, as it was a phone
+service initially, but there may be other content in
+the  future  (such  as Braille,  videos  with  audio
+description, etc.).
+
+
