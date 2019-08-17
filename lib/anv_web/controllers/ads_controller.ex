@@ -17,7 +17,7 @@ defmodule ANVWeb.AdsController do
       |> Date.to_erl()
 
     changeset =
-      ANV.Readables.change_ad_submission(
+      Readables.change_ad_submission(
         %{
           valid_from: valid_from,
           valid_to:   valid_to,
@@ -33,8 +33,27 @@ defmodule ANVWeb.AdsController do
   end
 
   def delete(conn, %{ "id" => id }) do
+
+    # delete `-small.jpg` images
+    delete_small_images(id)
+
+    # deletes full resolution images that were uploaded
     Readables.delete_ad!(id)
+
     redirect(conn, to: Routes.ads_path(conn, :index))
+  end
+
+  def delete_small_images(id) do
+    id
+    |> Readables.get_ad!()
+    |> Map.get(:sections)
+    |> Enum.each(
+      fn %{ path: path } ->
+        path
+        |> Utility.make_smalljpg_path()
+        |> File.rm!()
+      end
+    )
   end
 
   def edit(conn, %{ "id" => id }) do
@@ -53,11 +72,67 @@ defmodule ANVWeb.AdsController do
     render(conn, "edit.html", changeset: changeset)
   end
 
-  def update(conn, %{ "id" => id }) do
+  def update(
+    conn,
+    %{
+      "id" => id,
+      "ad" => %{
+        "store_name" => store_name,
+        "valid_from" => valid_from,
+        "valid_to"   => valid_to,
+        # "ad_images"  => uploaded_images,
+      } = ad_input,
+    }
+  ) do
+
+#     IO.puts("\n\n")
+#     IO.inspect(params)
+#     IO.puts("\n\n")
+
+    { date_tuples, dates_map } =
+      convert_input_dates(valid_from, valid_to)
+
+    update =
+      Map.merge(
+        dates_map,
+        %{
+          sections: process_sections(ad_input),
+        }
+      )
+
+    # delete `-small.jpg` images
+    delete_small_images(id)
+
+    # deletes previous full resolution images,
+    # and add update
+    case Readables.update_ad(id, update) do
+
+      {:ok, ad} ->
+
+        # NOTE 2019-08-16_1142 On the ImageMagick `Task`s
+
+        make_small_images(ad)
+        redirect(conn, to: Routes.ads_path(conn, :index))
+
+      {:error, changeset} ->
+
+        # NOTE 2019-08-15_0645 ditch eex and changesets validation
+        new_changeset =
+          Ecto.Changeset.change(
+            changeset,
+            %{
+              valid_from: date_tuples.valid_from,
+              valid_to:   date_tuples.valid_to,
+            }
+          )
+
+        render(conn, "edit.html", changeset: new_changeset)
+    end
   end
 
   # REFACTOR ONLY WHEN THERE ARE TESTS
-  def create( conn,
+  def create(
+    conn,
     %{
       "ad" => %{
         "store_name" => store_name,
@@ -80,42 +155,16 @@ defmodule ANVWeb.AdsController do
         |> redirect(to: Routes.ads_path(conn, :new))
 
       nil ->
+
+        # NOTE 2019-08-15_0645 ditch eex and changesets validation
         { date_tuples, dates_map } =
-          Enum.reduce(
-            %{
-              valid_from: valid_from,
-              valid_to:   valid_to
-            },
-            { %{}, %{} },
-            fn { key, input_date }, { t, m } ->
-
-              date_tuple = map_to_date_tuple(input_date)
-
-              new_t = Map.put(t, key, date_tuple)
-
-              new_m =
-                Map.put(
-                  m,
-                  key,
-                  Date.from_erl!(date_tuple)
-                )
-
-              { new_t, new_m }
-            end
-          )
-
-        sections =
-          Readables.Ads.process(
-            # if no images uploaded, just process an empty list
-            Map.get(ad_input, "ad_images", []),
-            with: &parse_upload/1
-          )
+          convert_input_dates(valid_from, valid_to)
 
         new_ad =
           Map.merge(
             dates_map,
             %{
-              sections: sections,
+              sections:   process_sections(ad_input),
               store_name: store_name,
             }
           )
@@ -126,22 +175,7 @@ defmodule ANVWeb.AdsController do
 
             # NOTE 2019-08-16_1142 On the ImageMagick `Task`s
 
-            for %{ path: path } <- ad.sections do
-              Task.start(
-                fn ->
-                  System.cmd(
-                    "magick",
-                    [ "convert",
-                      path,
-                      "-quality",
-                      "7",
-                      Utility.make_smalljpg_path(path)
-                    ]
-                  )
-                end
-              )
-            end
-
+            make_small_images(ad)
             redirect(conn, to: Routes.ads_path(conn, :index))
 
           {:error, changeset} ->
@@ -161,7 +195,70 @@ defmodule ANVWeb.AdsController do
     end
   end
 
-  # See `ANV.Readables.Ads.process/2` on what the parser
+  defp convert_input_dates(valid_from, valid_to) do
+    Enum.reduce(
+      %{
+        valid_from: valid_from,
+        valid_to:   valid_to
+      },
+      { %{}, %{} },
+      fn { key, input_date }, { t, m } ->
+
+        date_tuple = map_to_date_tuple(input_date)
+
+        new_t = Map.put(t, key, date_tuple)
+
+        new_m =
+          Map.put(
+            m,
+            key,
+            Date.from_erl!(date_tuple)
+          )
+
+        { new_t, new_m }
+      end
+    )
+  end
+
+  defp process_sections(ad_input) do
+    # Have there been any images uploaded?
+    case Map.get(ad_input, "ad_images", []) do
+
+      # yes, process them
+      uploaded_images when is_list(uploaded_images) ->
+
+        Readables.Ads.process(
+          uploaded_images,
+          with: &parse_upload/1
+        )
+
+      # No,  just   return  an   empty  list
+      # (that's what `process/2` above would
+      # do anyway.
+      [] -> []
+    end
+
+  end
+
+  defp make_small_images(ad) do
+    for %{ path: path } <- ad.sections do
+      Task.start(
+        fn ->
+          System.cmd(
+            "magick",
+            [ "convert",
+              path,
+              "-quality",
+              "7",
+              Utility.make_smalljpg_path(path)
+            ]
+          )
+        end
+      )
+    end
+  end
+
+  # See `Readables.Ads.process/2` on what the parser
   # should conform to.
   defp parse_upload(
     %Plug.Upload{

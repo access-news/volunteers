@@ -116,4 +116,41 @@ The idea is to send dedicated signup links to users.
 
   6. and when that person registers, just extract the token from the form data.
 
-##
+## 2019-08-16_1318 Store renaming considerations
+
+> At  the  moment,  stores   cannot  be  renamed,  and
+> updating the images is all or nothing. To rename the
+> store, delete  it, and recreate it  with a different
+> name. (Yes, reservation and  other metadata will get
+> lost.)
+
+Volunteer-facing            store           sections
+(`page/index.html.eex`) have a unique `id` attribute
+so  that   they  can   be  updated   via  Websockets
+on  backend  changes.  This  ID  is  generated  from
+`store_name`  (`:crypto.hash(:md5,   store_name)  |>
+Base.encode16()`), and is not stored anywhere.
+
+Renaming a store would require
+
+1. Remove old store section  from frontend (because its
+   ID will change permanently with the store name)
+
+2. Insert the  a new  section with  new store  name and
+   ID, and  corresponding data.  Basically it  would be
+   handled as if the section had been loaded on initial
+   page load.  That is, if  only the name  changed, the
+   images will be the same, and so on.
+
+### Change subset of images with store name change
+
+Same as written in item  2 above: update the record,
+and then re-render the section from scratch from the
+DB.
+
+## 2019-08-16_1345 create shared template (`:new` is almost the same)
+
+There   is  a   lot   of   duplicate  code   between
+`Ads`  templates  `:new`  and `:edit`,  and  between
+`AdsController` functions `new/2` and `edit/2` (also
+between `create/2` and `update/2`).

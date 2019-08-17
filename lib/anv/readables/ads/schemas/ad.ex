@@ -27,30 +27,49 @@ defmodule ANV.Readables.Ads.Ad do
 
   def ads_changeset(ads, attrs) do
 
-    # TODO: add  validation to check that  `valid_to` does
-    #       not come before `valid_from`
-    #
-    # Consider  where this  check  should be:  if this  is
-    # false, then do not  start copying and reducing files
-    # in `ads.ex`!
+    dates = [:valid_from, :valid_to]
 
     req_fields = [
       :store_name,
     ]
 
-    fields =
-      req_fields
-      ++ [:valid_from, :valid_to]
+    fields = req_fields ++ dates
 
     ads
     |> cast(attrs, fields)
     |> validate_required(req_fields)
     |> unique_constraint(:store_name)
+    |> validate_from_before_to()
 
     |> cast_embed(
          :sections,
          with: &sections_changeset/2
        )
+  end
+
+  defp validate_from_before_to(
+    %Ecto.Changeset{ changes: changes } = changeset
+  )
+    when changes == %{}
+  do
+    changeset
+  end
+
+  # https://stackoverflow.com/questions/36961176
+  defp validate_from_before_to(changeset) do
+
+    from = get_field(changeset, :valid_from)
+    to   = get_field(changeset, :valid_to)
+
+    if Date.compare(from, to) == :gt do
+      add_error(
+        changeset,
+        :valid_from,
+        "must be earlier than end date"
+      )
+    else
+      changeset
+    end
   end
 
   def sections_changeset(sections, attrs) do

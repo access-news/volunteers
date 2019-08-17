@@ -16,7 +16,7 @@ defmodule ANV.Readables do
   end
 
   def get_ad!(id) do
-    Repo.get(Ad, id)
+    Repo.get!(Ad, id)
   end
 
   def get_ad_by(params) do
@@ -68,8 +68,9 @@ defmodule ANV.Readables do
     |> Repo.insert()
   end
 
-  def update_ad(ad, update) do
-    ad
+  def update_ad(id, update) do
+    id
+    |> get_ad!()
     |> Ads.delete_section_images()
     |> Ecto.Changeset.change(update)
     |> Repo.update()

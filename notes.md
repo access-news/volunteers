@@ -112,3 +112,4 @@ Anyway, it helps speeding things up.
 (frontend).  Moved  it  because  load  times  are  a
 concern for the frontend,  and the ImageMagick tasks
 are an optimization for this.
+
