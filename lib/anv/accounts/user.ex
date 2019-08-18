@@ -16,6 +16,8 @@ defmodule ANV.Accounts.User do
       field :source_id, :string # slate for admin, resdev for volunteer
     end
 
+    has_many :recordings, ANV.Media.Recording
+
     timestamps()
   end
 

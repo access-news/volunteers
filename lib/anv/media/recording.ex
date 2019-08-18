@@ -3,10 +3,12 @@ defmodule ANV.Media.Recording do
   import Ecto.Changeset
 
   @primary_key {:id, :binary_id, autogenerate: true}
+  @foreign_key_type :binary_id
 
   schema "recordings" do
     field :recorded_at, :naive_datetime
-    field :user_id, :id
+
+    belongs_to :user, ANV.Accounts.User
 
     timestamps()
   end
