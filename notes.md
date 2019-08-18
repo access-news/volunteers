@@ -122,4 +122,46 @@ service initially, but there may be other content in
 the  future  (such  as Braille,  videos  with  audio
 description, etc.).
 
+## 2019-08-17_1835 On moving to UUIDs and exposing primary keys
 
+### Moving to UUIDs
+
+All users  present are coming from  other databases,
+hence only  those IDs are stored  (`source_id`), and
+only  their  most  essential  information.  Have  no
+control  over those  databases  though, therefore  I
+would like these users to have a fairly unique ID as
+well.
+
+### Exposing primary keys
+
+There are a lot of reasons not to (security, SEO, etc.; see below),
+
++ https://softwareengineering.stackexchange.com/questions/218306/why-not-expose-a-primary-key/
++ https://stackoverflow.com/questions/32207121/restful-vs-seo-urls
++ https://stackoverflow.com/questions/11451061/using-database-primary-key-in-html-id
+
+and not planning to, but maybe it isn't always a concern.
+
+#### Pages under authorization constraints
+
+Pages, that are only available when users are signed
+in, shouldn't be  indexed (like Stackoverflow pages,
+that are  public to people without  logins as well).
+Another, albeit  weak, argument is that  the content
+would change fairly often (exception: Old Time Radio
+Theater).
+
+#### Public pages
+
+Shouldn't expose IDs. Period.
+
+#### Bottom line
+
+Will  try   not  to  expose  them,   especially  for
+recordings,  and   hopefully  can  find   a  natural
+alternative.  (Article title?  They  are subject  to
+change. - Although, aren't  redirects there just for
+that reason?
+
+TODO: Figure out redirects.
