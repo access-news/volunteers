@@ -192,4 +192,10 @@ There   is  a   lot   of   duplicate  code   between
 `AdsController` functions `new/2` and `edit/2` (also
 between `create/2` and `update/2`).
 
-##
+## 2019-08-18_1040 How to add initial user in prod?
+
++ https://phoenixframework.org/blog/seeding-data
++ https://www.reddit.com/r/elixir/comments/5j6k2y/how_to_populate_a_database_in_phoenixelixir_on_a/
++ https://alexgaribay.com/2016/02/12/seeding-your-phoenix-app-for-different-mix-environments/
+
+
