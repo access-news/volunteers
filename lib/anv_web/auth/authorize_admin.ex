@@ -18,7 +18,7 @@ defmodule ANVWeb.Auth.AuthorizeAdmin do
            :error,
           "You need admin privileges to access that page"
          )
-      # |> redirect(to: Routes.session_path(conn, :new))
+      |> redirect(to: Routes.page_path(conn, :index))
       |> halt()
     end
   end
