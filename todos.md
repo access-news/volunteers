@@ -25,6 +25,14 @@
 + https://hexdocs.pm/ex_unit/ExUnit.html#content
 + https://hexdocs.pm/phoenix/Phoenix.ConnTest.html?#html_response/2
 
+## 2019-08-18_0714 Go HTTPS
+
++ https://www.google.com/search?q=should+public+sites+use+https&oq=should+public+sites+use+https&aqs=chrome..69i57.8941j0j7&sourceid=chrome&ie=UTF-8
++ https://https.cio.gov/everything/
++ https://developers.google.com/web/fundamentals/security/encrypt-in-transit/why-https
++ https://www.troyhunt.com/heres-why-your-static-website-needs-https/
++ https://mashable.com/2011/05/31/https-web-security/
+
 ## 2019-08-12_0710 Per route page titles
 
 [This SO thread](https://stackoverflow.com/questions/42362376/phoenix-framework-page-titles-per-route)
@@ -46,6 +54,10 @@ according to which view module it is called.
 somehow?
 
 The rest should be the same as in the SO answer.
+
+Other resources:
++ https://elixirforum.com/t/phoenix-render-a-template-that-changes-with-route/13730
++ https://elixirforum.com/t/phoenix-slug-url-primary-key-best-practices/13253
 
 ## 2019-08-07 The `render/?`s conundrum
 
