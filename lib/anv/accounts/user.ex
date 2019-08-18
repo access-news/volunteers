@@ -4,6 +4,8 @@ defmodule ANV.Accounts.User do
 
   # https://stackoverflow.com/questions/45856232/code-duplication-in-elixir-and-ecto
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+
   schema "users" do
     field :username,      :string
     field :password,      :string, virtual: true
