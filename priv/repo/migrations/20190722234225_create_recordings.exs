@@ -2,7 +2,8 @@ defmodule ANV.Repo.Migrations.CreateRecordings do
   use Ecto.Migration
 
   def change do
-    create table(:recordings) do
+    create table(:recordings, primary_key: false) do
+      add :id, :uuid, primary_key: true
       add :recorded_at, :utc_datetime
 
       # Keep recordings on user deletion. Volunteers produce

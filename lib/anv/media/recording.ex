@@ -2,6 +2,8 @@ defmodule ANV.Media.Recording do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @primary_key {:id, :binary_id, autogenerate: true}
+
   schema "recordings" do
     field :recorded_at, :naive_datetime
     field :user_id, :id
