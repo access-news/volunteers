@@ -198,4 +198,13 @@ between `create/2` and `update/2`).
 + https://www.reddit.com/r/elixir/comments/5j6k2y/how_to_populate_a_database_in_phoenixelixir_on_a/
 + https://alexgaribay.com/2016/02/12/seeding-your-phoenix-app-for-different-mix-environments/
 
+## 2019-08-18_1530 Make `<select>`s "smart"
+
+The   `ANV.Readables.Ads.Ad`   schema  already   has
+validation  to  make   sure  that  `:valid_to`  does
+not  pre-date `;valid_from`,  but it  would be  more
+convenient to  take it one step  further: don't even
+allow  the selection  of  dates before  the date  of
+uploading. (Does this make sense?)
+
 

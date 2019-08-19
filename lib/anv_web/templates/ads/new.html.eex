@@ -8,6 +8,9 @@
     <%= text_input f, :store_name, placeholder: "Name of store chain" %>
     <%= error_tag f, :store_name %>
   </div>
+
+  <%# TODO 2019-08-18_1530 Make `<select>`s "smart" %>
+
   <div>
     <%= label(f, :valid_from, "Valid from:") %>
     <%= custom_datetime_select f, :valid_from %>
