@@ -1,4 +1,4 @@
-defmodule ANV.Readables.Ads.Ad do
+defmodule ANV.Readables.Schemas.Ad do
   use Ecto.Schema
   import Ecto.Changeset
 

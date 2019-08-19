@@ -12,6 +12,7 @@ defmodule ANV.Application do
       ANV.Repo,
       # Start the endpoint when the application starts
       ANVWeb.Endpoint,
+
       # Starts a worker by calling: ANV.Worker.start_link(arg)
       # {ANV.Worker, arg},
 

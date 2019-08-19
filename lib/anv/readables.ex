@@ -4,7 +4,7 @@ defmodule ANV.Readables do
   """
 
   alias ANV.Readables.Ads
-  alias ANV.Readables.Ads.Ad
+  alias ANV.Readables.Schemas.Ad
   alias ANV.Repo
 
   def list_ads() do

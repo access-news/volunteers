@@ -1,6 +1,6 @@
 # Notes
 
-## 2019-08-13_0954 Justifying the `ANV.Readables.Ads.Ad` schema
+## 2019-08-13_0954 Justifying the `ANV.Readables.Schemas.Ad` schema
 
 The  schema  should  probably be  separated  at  the
 line below  so that  future updates  don't overwrite
