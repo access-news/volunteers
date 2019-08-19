@@ -31,6 +31,7 @@
         <span><%= link "View", to: Routes.ads_path(@conn, :show, ad.id) %></span>
         <span><%= link "Edit", to: Routes.ads_path(@conn, :edit, ad.id) %></span>
         <span><%= link "Delete", to: Routes.ads_path(@conn, :delete, ad.id), method: "delete" %></span>
+        <span><%= link "Upload recordings", to: "" %></span>
       </td>
     </tr>
   <% end %>

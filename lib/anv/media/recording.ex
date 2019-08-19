@@ -6,7 +6,7 @@ defmodule ANV.Media.Recording do
   @foreign_key_type :binary_id
 
   schema "recordings" do
-    field :recorded_at, :naive_datetime
+    field :recorded_at, :utc_datetime
 
     belongs_to :user, ANV.Accounts.User
 

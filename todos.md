@@ -207,4 +207,8 @@ convenient to  take it one step  further: don't even
 allow  the selection  of  dates before  the date  of
 uploading. (Does this make sense?)
 
+## 2019-08-19_1409 Chromium mp3 content type bug
+
+https://stackoverflow.com/questions/10688588/which-mime-type-should-i-use-for-mp3
+https://bugs.chromium.org/p/chromium/issues/detail?id=227004
 
