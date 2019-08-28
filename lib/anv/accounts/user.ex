@@ -12,8 +12,12 @@ defmodule ANV.Accounts.User do
     field :password_hash, :string
 
     embeds_many :roles, Roles do
-      field :role,      :string # enum: ["admin", "volunteer"]
-      field :source_id, :string # slate for admin, resdev for volunteer
+
+      # enum: ["admin", "volunteer", "subscriber"]
+      field :role,      :string
+
+      # slate for admin and subscriber, resdev for volunteer
+      field :source_id, :string
     end
 
     has_many :recordings, ANV.Media.Recording
@@ -65,7 +69,7 @@ defmodule ANV.Accounts.User do
     roles
     |> cast(attrs, fields)
     |> validate_required(fields)
-    |> validate_inclusion(:role, ["admin", "volunteer"])
+    |> validate_inclusion(:role, ~w(admin volunteer subscriber))
     # see  TODO 2019-08-08_1109
 
     # TODO

@@ -1,19 +1,21 @@
-defmodule ANV.Accounts.Admin do
-  use Ecto.Schema
-  import Ecto.Changeset
+# Not in  use at the  moment; all the info  needed for
+# admins is already in `User`.
 
-  # see TODO 2019-08-06_1003
-  schema "admins" do
-    field :username,      :string
-    field :password,      :string, virtual: true
-    field :password_hash, :string
+  # defmodule ANV.Accounts.Admin do
+  #   use Ecto.Schema
+  #   import Ecto.Changeset
 
-    timestamps()
-  end
+  #   schema "admins" do
+  #     field :username,      :string
+  #     field :password,      :string, virtual: true
+  #     field :password_hash, :string
 
-  def changeset(admin, attrs) do
-    admin
-    |> ANV.Accounts.User.registration_changeset(attrs, [passwd_min_length: 16])
-    |> cast(attrs, [:res_dev_id])
-  end
-end
+  #     timestamps()
+  #   end
+
+  #   def changeset(admin, attrs) do
+  #     admin
+  #     |> ANV.Accounts.User.registration_changeset(attrs, [passwd_min_length: 16])
+  #     |> cast(attrs, [:res_dev_id])
+  #   end
+  # end
