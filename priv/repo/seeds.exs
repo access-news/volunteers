@@ -23,7 +23,9 @@ alias ANV.Accounts.User
      },
      passwd_min_length: 5
    )
-|> ANV.Repo.insert!()
+# Removed bang  (!) because it  would fail when  it is
+# already added.
+|> ANV.Repo.insert()
 
 #     ANV.Repo.insert!(%ANV.SomeSchema{})
 #
