@@ -128,27 +128,29 @@ pkgs.mkShell {
       (cd assets && npm install)
     fi
 
-    ####################################################################
-    # If $MIX_HOME doesn't exist, set it up.
-    ####################################################################
+    # Skipping this part. See NOTE 2019-08-05_0553
 
-    # if ! test -d $MIX_HOME
-    # then
-    #   ######################################################
-    #   # Install Hex and Phoenix
-    #   ######################################################
+      ####################################################################
+      # If $MIX_HOME doesn't exist, set it up.
+      ####################################################################
 
-    #   # yes | mix archive.install git https://github.com/hexpm/hex tag "v0.20.1"
-    #   # yes | mix local.hex
-    #   # yes | mix archive.install hex phx_new
+      # if ! test -d $MIX_HOME
+      # then
+      #   ######################################################
+      #   # Install Hex and Phoenix
+      #   ######################################################
 
-    #   ######################################################
-    #   # `ecto.setup` is defined in `mix.exs` by default when
-    #   # Phoenix  project  is  generated via  `mix  phx.new`.
-    #   # It  does  `ecto.create`,   `ecto.migrate`,  and  run
-    #   # `priv/seeds`.
-    #   ######################################################
-    # fi
+      #   # yes | mix archive.install git https://github.com/hexpm/hex tag "v0.20.1"
+      #   # yes | mix local.hex
+      #   # yes | mix archive.install hex phx_new
+
+      #   ######################################################
+      #   # `ecto.setup` is defined in `mix.exs` by default when
+      #   # Phoenix  project  is  generated via  `mix  phx.new`.
+      #   # It  does  `ecto.create`,   `ecto.migrate`,  and  run
+      #   # `priv/seeds`.
+      #   ######################################################
+      # fi
 
     # Moving  these  here  from  the  above  `if`  section
     # because  `.nix-shell/db`  and  `./deps` are  not  in

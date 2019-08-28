@@ -6,9 +6,11 @@ If you have Nix installed or using NixOS:
 
 1. Clone project and `cd` into it
 
-2. Issue `nix-shell`
+2. `git clone https://github.com/NixOS/nixpkgs.git ~/clones/nixpkgs`
 
-3. Start  Phoenix endpoint with `mix  phx.server` or
+3. Issue `nix-shell`
+
+4. Start  Phoenix endpoint with `mix  phx.server` or
    `iex -S mix phx.server`
 
 Otherwise:
