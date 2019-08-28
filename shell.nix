@@ -75,15 +75,8 @@ pkgs.mkShell {
         # it didn't for me when exiting in a subdirectory.
         ######################################################
 
-        # Putting a pin on this for now because installing Hex
-        # breaks the system, so instead of completely cleaning
-        # up, MIX_HOME has been  committed to version control.
-        # Setting up  PostgreSQL was  never a  problem anyway,
-        # and it will only be stopped (see above) upon exiting
-        # the shell.
-
-        # cd $PWD
-        # rm -rf $NIX_SHELL_DIR
+        cd $PWD
+        rm -rf $NIX_SHELL_DIR
       " \
       EXIT
 
@@ -128,35 +121,32 @@ pkgs.mkShell {
       (cd assets && npm install)
     fi
 
-    # Skipping this part. See NOTE 2019-08-05_0553
-
       ####################################################################
       # If $MIX_HOME doesn't exist, set it up.
       ####################################################################
 
-      # if ! test -d $MIX_HOME
-      # then
-      #   ######################################################
-      #   # Install Hex and Phoenix
-      #   ######################################################
+      if ! test -d $MIX_HOME
+      then
+        ######################################################
+        # Install Hex and Phoenix
+        ######################################################
 
-      #   # yes | mix archive.install git https://github.com/hexpm/hex tag "v0.20.1"
-      #   # yes | mix local.hex
-      #   # yes | mix archive.install hex phx_new
+        yes | mix local.hex
+        yes | mix archive.install hex phx_new
+      fi
 
-      #   ######################################################
-      #   # `ecto.setup` is defined in `mix.exs` by default when
-      #   # Phoenix  project  is  generated via  `mix  phx.new`.
-      #   # It  does  `ecto.create`,   `ecto.migrate`,  and  run
-      #   # `priv/seeds`.
-      #   ######################################################
-      # fi
-
-    # Moving  these  here  from  the  above  `if`  section
-    # because  `.nix-shell/db`  and  `./deps` are  not  in
-    # version control, and can be gone at time.
+    # These are not in the  `if` section above, because of
+    # the `hex` install glitch, it  could be that there is
+    # already a `$MIX_HOME` folder. See 2019-08-05_0553
 
     mix deps.get
+
+    ######################################################
+    # `ecto.setup` is defined in `mix.exs` by default when
+    # Phoenix  project  is  generated via  `mix  phx.new`.
+    # It  does  `ecto.create`,   `ecto.migrate`,  and  run
+    # `priv/seeds`.
+    ######################################################
     mix ecto.setup
   '';
 
