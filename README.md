@@ -38,3 +38,10 @@
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+---
+
+**NOTE**:  
+Either  have a  `service_account.js`  file ready  in
+the  project root,  or configure  (|disable) `Goth`,
+otherwise it will raise on startup.

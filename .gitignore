@@ -33,12 +33,7 @@ npm-debug.log
 # this depending on your deployment strategy.
 /priv/static/
 
-# Ignore artifacts produced by `nix-shell` (and `shell.nix`)
-# BUT keeping MIX_HOME, becuase installing `hex` seems to be
-# wreaking havoc on the system 8 times out of 10. So keeping
-# it in version control.
-.nix-shell/db/
-rebar*
+.nix-shell/
 
 _ads/
 *.jpg
