@@ -377,3 +377,57 @@ change. - Although, aren't  redirects there just for
 that reason?
 
 TODO: Figure out redirects.
+
+## 20190828_1438 `User`'s `source_id`
+
+A  particular user  can  have multiple  `source_id`s
+associated with  them. For example, a  volunteer may
+be  in SLATE  (by being  a client),  hence having  a
+SLATE ID,  and also  in resource development  DB (by
+being a client), hence the `res_dev_id`.
+
+It is also possible that  they will have no internal
+ID.  For example,  they  are  subscribers who  never
+received any services, or  even heard of Society For
+The Blind.
+
+## 20190828_1639  `Credential`
+
+Had the same issue as the one described in this [SO question](https://stackoverflow.com/questions/45856232/code-duplication-in-elixir-and-ecto): entities that share the same core.
+
+Initially,  I went  the  route of  having a  generic
+`User` schema with a  `Roles` embed, but when trying
+to add  the specific parts (volunteers,  admins, and
+subscribers), I couldn't figure out a composition to
+work with  Ecto efficiently, and it  started to feel
+like OO (i.e.,  inherit a `User` expand  on it). For
+example,  a `Subscriber`  would  also  have a  phone
+number  in a  different table  (because querying  it
+from the  FreeSWITCH appwith  Lua seemed  easier) so
+the  generic  User part  would've  had  to be  saved
+to  the  `users`  table,  and the  phone  number  to
+another.  Could've  done`embedded_schema`, but  then
+`Repo.insert/2` would've needed to be figured out.
+
+Anyway,  I  was  overthinking it:  have  credentials
+as   a  separate   logical  entity,   and  different
+user  groups  will  refer  to  its  entries  1-to-1.
+This  also   makes  it   easier  to   abstract  away
+different  types  of  credentials  later.  That  is,
+using  username and  password  right  now (could  be
+`Credential.UsernameAndPassword`) and just add more.
+
+Also,  bla bla  bla. Whatever  I come  up with  will
+change in 5 seconds.
+
+## 2019-08-31_0513 `null: false` on referencing rows
+
+From the [PostgreSQL docs on constraints](https://www.postgresql.org/docs/current/ddl-constraints.html):
+
+> If you  don’t want  referencing rows  to be  able to
+> avoid satisfying the foreign key constraint, declare
+> the referencing column(s) as NOT NULL.
+
+In  other words,  one cannot  create a  `credential`
+record  for  example,  if  there  is  no  associated
+`user`, so no dangling pointers.
