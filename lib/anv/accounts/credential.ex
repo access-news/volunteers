@@ -8,7 +8,6 @@ defmodule ANV.Accounts.Credential do
 
   schema "credentials" do
 
-    field :username,        :string
     field :password,        :string,  virtual: true
     # admins will have significantly longer passwords
     field :password_length, :integer, virtual: true
@@ -32,7 +31,6 @@ defmodule ANV.Accounts.Credential do
 
     fields =
       [
-        :username,
         :password,
         :password_length,
       ]
@@ -40,9 +38,6 @@ defmodule ANV.Accounts.Credential do
     credential
     |> cast(attrs, fields)
     |> validate_required(fields)
-
-    |> validate_length(:username, max: 27)
-    |> unique_constraint(:username)
 
     |> validate_length(
          :password,

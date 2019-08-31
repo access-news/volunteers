@@ -20,23 +20,17 @@ for role <- AccessNewsRole.roles() do
   |> ANV.Repo.insert()
 end
 
-# %User{}
-# |> User.registration_changeset(
-#      %{
-#        username: "admin",
-#        password: "admin",
-#        roles: [
-#          %{
-#            role: "admin",
-#            source_id: "initial_for_testing"
-#          }
-#        ]
-#      },
-#      passwd_min_length: 5
-#    )
-# |> ANV.Repo.insert()
+admin_role = ANV.Repo.get_by(AccessNewsRole, role: "admin")
 
-#     ANV.Repo.insert!(%ANV.SomeSchema{})
-#
+%User{}
+|> User.changeset(%{username: "admin", credential: %{ password: "admin", password_length: 5}})
+|> Ecto.Changeset.put_assoc(:roles, [admin_role])
+  # Removed bang  (!) because it  would fail when  it is
+  # already added.
+|> ANV.Repo.insert()
+
+# mix do ecto.drop, ecto.create, ecto.migrate, run priv/repo/seeds.exs
+# see `mix.exs`
+
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.

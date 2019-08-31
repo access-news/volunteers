@@ -7,7 +7,6 @@ defmodule ANV.Repo.Migrations.CreateCredentials do
 
       add :id, :uuid, primary_key: true
 
-      add :username,      :string, null: false
       add :password_hash, :string, null: false
 
       add(
@@ -22,7 +21,5 @@ defmodule ANV.Repo.Migrations.CreateCredentials do
 
       timestamps()
     end
-
-    create unique_index(:credentials, [:username])
   end
 end

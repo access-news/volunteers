@@ -17,6 +17,8 @@ defmodule ANV.Accounts.User do
 
   schema "users" do
 
+    field :username, :string
+
     many_to_many :roles, AccessNewsRole, join_through: UserRole
 
     has_many :recordings,   Recording
@@ -32,8 +34,14 @@ defmodule ANV.Accounts.User do
     %{} = attrs
   ) do
 
+    fields = [ :username ]
+
     user
-    |> cast(attrs, [])
+    |> cast(attrs, fields)
+    |> validate_required(fields)
+    |> validate_length(:username, max: 27)
+    |> unique_constraint(:username)
+
     |> cast_assoc(:credential, required: true)
     # # NOTE 20190828_1438 `data_source` not mandatory
     |> cast_assoc(:data_sources)

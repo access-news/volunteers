@@ -25,13 +25,12 @@ defmodule ANV.Accounts.AccessNewsRole do
     %{} = attrs
   ) do
 
-    roles  = roles()
     fields = [ :role ]
 
     role
     |> cast(attrs, fields)
     |> validate_required(fields)
-    |> validate_inclusion(:role, roles)
+    |> validate_inclusion(:role, roles())
   end
 
   def roles() do

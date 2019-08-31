@@ -9,7 +9,11 @@ defmodule ANV.Repo.Migrations.CreateUsers do
 
       add :id, :uuid, primary_key: true
 
+      add :username, :string, null: false
+
       timestamps()
     end
+
+    create unique_index(:users, [:username])
   end
 end
