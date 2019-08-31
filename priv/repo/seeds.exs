@@ -7,25 +7,34 @@
 # Inside the script, you can read and write to any of your
 # repositories directly:
 #
-alias ANV.Accounts.User
+alias ANV.Accounts.{
+  User,
+  AccessNewsRole
+}
 
-%User{}
-|> User.registration_changeset(
-     %{
-       username: "admin",
-       password: "admin",
-       roles: [
-         %{
-           role: "admin",
-           source_id: "initial_for_testing"
-         }
-       ]
-     },
-     passwd_min_length: 5
-   )
-# Removed bang  (!) because it  would fail when  it is
-# already added.
-|> ANV.Repo.insert()
+for role <- AccessNewsRole.roles() do
+  %AccessNewsRole{}
+  |> AccessNewsRole.changeset(%{ role: role })
+  # Removed bang  (!) because it  would fail when  it is
+  # already added.
+  |> ANV.Repo.insert()
+end
+
+# %User{}
+# |> User.registration_changeset(
+#      %{
+#        username: "admin",
+#        password: "admin",
+#        roles: [
+#          %{
+#            role: "admin",
+#            source_id: "initial_for_testing"
+#          }
+#        ]
+#      },
+#      passwd_min_length: 5
+#    )
+# |> ANV.Repo.insert()
 
 #     ANV.Repo.insert!(%ANV.SomeSchema{})
 #

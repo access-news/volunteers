@@ -27,7 +27,7 @@ defmodule ANV.Accounts.Credential do
     min_length =
       case Map.get(attrs, :password_length) do
         nil -> 7
-        length -> String.to_integer(length)
+        length -> length
       end
 
     fields =
