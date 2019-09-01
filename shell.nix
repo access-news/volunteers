@@ -104,6 +104,19 @@ pkgs.mkShell {
 
       OPT="unix_socket_directories"
       sed -i "s|^#$OPT.*$|$OPT = '$PGDATA'|" $PGDATA/postgresql.conf
+
+      ######################################################
+      # PORT ALREADY IN USE
+      ######################################################
+      # If another `nix-shell` is  running with a PostgreSQL
+      # instance,  the logs  will show  complaints that  the
+      # default port 5432  is already in use.  Edit the line
+      # below with  a different  port number,  uncomment it,
+      # and try again.
+      ######################################################
+
+      # sed -i "s|^#port.*$|port = 5433|" $PGDATA/postgresql.conf
+
     fi
 
     ####################################################################
@@ -116,38 +129,54 @@ pkgs.mkShell {
     # Install Node.js dependencies if not done yet.
     ####################################################################
 
-    if ! test -d "$PWD/assets/node_modules/"
+    if test -d "$PWD/assets/" && ! test -d "$PWD/assets/node_modules/"
     then
       (cd assets && npm install)
     fi
 
-      ####################################################################
-      # If $MIX_HOME doesn't exist, set it up.
-      ####################################################################
+    ####################################################################
+    # If $MIX_HOME doesn't exist, set it up.
+    ####################################################################
 
-      if ! test -d $MIX_HOME
+    if ! test -d $MIX_HOME
+    then
+
+      ######################################################
+      # ...  but first,  test whether  there is  a `_backup`
+      # directory. Had issues with  installing Hex on NixOS,
+      # and Hex and  Phoenix can be copied  from there, just
+      # in case.
+      ######################################################
+
+      if test -d "$PWD/_backup"
       then
+        cp -r _backup/.mix .nix-shell/
+      else
         ######################################################
-        # Install Hex and Phoenix
+        # Install Hex and Phoenix via the network
         ######################################################
 
         yes | mix local.hex
         yes | mix archive.install hex phx_new
       fi
+    fi
 
-    # These are not in the  `if` section above, because of
-    # the `hex` install glitch, it  could be that there is
-    # already a `$MIX_HOME` folder. See 2019-08-05_0553
+    if test -f "mix.exs"
+    then
+      # These are not in the  `if` section above, because of
+      # the `hex` install glitch, it  could be that there is
+      # already a `$MIX_HOME` folder. See 2019-08-05_0553
 
-    mix deps.get
+      mix deps.get
 
-    ######################################################
-    # `ecto.setup` is defined in `mix.exs` by default when
-    # Phoenix  project  is  generated via  `mix  phx.new`.
-    # It  does  `ecto.create`,   `ecto.migrate`,  and  run
-    # `priv/seeds`.
-    ######################################################
-    mix ecto.setup
+      ######################################################
+      # `ecto.setup` is defined in `mix.exs` by default when
+      # Phoenix  project  is  generated via  `mix  phx.new`.
+      # It  does  `ecto.create`,   `ecto.migrate`,  and  run
+      # `priv/seeds`.
+      ######################################################
+      mix ecto.setup
+    fi
   '';
 
   ####################################################################

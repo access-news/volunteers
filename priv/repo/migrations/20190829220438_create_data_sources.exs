@@ -9,7 +9,7 @@ defmodule ANV.Repo.Migrations.CreateDataSources do
     execute(
       """
       CREATE TYPE #{@type_name}
-        AS ENUM (#{sources_sql_string})
+        AS ENUM (#{sources_sql_string()})
       """
     )
 
