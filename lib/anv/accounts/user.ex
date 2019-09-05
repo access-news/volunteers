@@ -7,13 +7,14 @@ defmodule ANV.Accounts.User do
     DataSource,
     AccessNewsRole,
     UserRole,
+    PhoneNumber
   }
   alias ANV.Media.Recording
 
   # NOTE 20190828_1639 `Credential`
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
+  # @foreign_key_type :binary_id
 
   schema "users" do
 
@@ -21,8 +22,9 @@ defmodule ANV.Accounts.User do
 
     many_to_many :roles, AccessNewsRole, join_through: UserRole
 
-    has_many :recordings,   Recording
-    has_many :data_sources, DataSource
+    has_many :recordings,    Recording
+    has_many :data_sources,  DataSource
+    has_many :phone_numbers, PhoneNumber
 
     has_one :credential, Credential
 
@@ -43,8 +45,9 @@ defmodule ANV.Accounts.User do
     |> unique_constraint(:username)
 
     |> cast_assoc(:credential, required: true)
-    # # NOTE 20190828_1438 `data_source` not mandatory
+    # NOTE 20190828_1438 `data_source` not mandatory
     |> cast_assoc(:data_sources)
-    # # TODO: recording
+    |> cast_assoc(:phone_numbers)
+    # TODO: recording
   end
 end

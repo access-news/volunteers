@@ -2,7 +2,8 @@ defmodule ANVWeb.Auth do
 
   import Plug.Conn
 
-  def login(conn, %user_type{} = user) do
+  # def login(conn, %user_type{} = user) do
+  def login(conn, %ANV.Accounts.User{} = user) do
     conn
     |> assign(:current_user, user)
     |> put_session(:user_id, user.id)
@@ -11,13 +12,6 @@ defmodule ANVWeb.Auth do
 
   def logout(conn) do
     configure_session(conn, drop: true)
-  end
-
-  def is_admin?(conn) do
-
-    user = conn.assigns.current_user
-
-    signed_in?(conn) && ANV.Accounts.is_admin?(user)
   end
 
   def signed_in?(conn) do

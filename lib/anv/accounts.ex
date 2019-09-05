@@ -18,12 +18,11 @@ defmodule ANV.Accounts do
     Repo.get(User, id)
   end
 
-  # TODO 2019-08-13_1446 How to break out early?
-  # def delete_user(id) do
-  #   id
-  #   |> get_user()
-  #   |> Repo.delete()
-  # end
+  def delete_user(id) do
+    id
+    |> get_user()
+    |> Repo.delete()
+  end
 
   def delete_user!(id) do
     id
@@ -43,7 +42,7 @@ defmodule ANV.Accounts do
     "admin" in ANV.Accounts.get_roles(user)
   end
 
-  # Needed to render forms (until moving to a frontend framework?)
+  # Needed, in order to render forms (until moving to a frontend framework?)
   # no args are really needed, because called with empty User struct and empty map
   def change_registration(user \\ %User{}, params)
   def change_registration(%User{} = user, params) do

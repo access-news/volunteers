@@ -19,31 +19,33 @@
       <h1>The Reading List</h1>
       <p>Content that awaits to be read by Access News volunteers</p>
     </header>
-    <nav>
-      <ol>
-        <li class="nav_li">
 
-          <%# TODO: %>
-          <%# Make it  a link to  the user profile  (which doesn't %>
-          <%# exist yet). %>
+    <%= case ANVWeb.Auth.signed_in?(@conn) do %>
+      <%= true  -> %>
+        <nav>
+          <ol>
+            <li class="nav_li">
 
-          <%= username(@conn) %>
-        </li>
-        <li class="nav_li">
-          <%= case ANVWeb.Auth.signed_in?(@conn) do %>
-            <%= true  -> %>
-              <%= button("Logout", to: "/sessions", method: "delete") %>
-            <%= false -> %>
-              <%= "" %>
-          <% end %>
-        </li>
-        <li class="nav_li">
-          <%# TODO 2019-08-13_1100 %>
-          <%= button("Admin Tools", to: "/admin", method: "get", disabled: !ANVWeb.Auth.is_admin?(@conn)) %>
+              <%# TODO: %>
+              <%# Make it a link to the user profile (which doesn't %>
+              <%# exist yet). %>
 
-        </li>
-      </ol>
-    </nav>
+              <%= username(@conn) %>
+            </li>
+            <li class="nav_li">
+                  <%= button("Logout", to: "/sessions", method: "delete") %>
+            </li>
+            <li class="nav_li">
+              <%# TODO 2019-08-13_1100 %>
+              <%# <%= button("Admin Tools", to: "/admin", method: "get", disabled: !ANVWeb.Auth.is_admin?(@conn)) %1> %>
+              <%= button("Admin Tools", to: "/admin", method: "get", disabled: !is_admin?(@conn)) %>
+            </li>
+          </ol>
+        </nav>
+      <%= false -> %>
+        <%= "" %>
+    <% end %>
+
     <main role="main" class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>

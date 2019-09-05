@@ -124,17 +124,6 @@ error message would be better than a crashed page.
 + https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced
 + https://stackoverflow.com/questions/33621173/id-and-headers-or-scope-for-data-table-accessibility
 
-## 2019-08-13_1446 How to break out early?
-
-This won't work because `get_user/1` returns a tuple (`{:ok, _}` or `{:error, _}`) and so is `Repo.delete/1`. What is the category theory solution for this?
-
-```elixir
-def delete_user(id) do
-  id
-  |> get_user()
-  |> Repo.delete()
-end
-```
 ## 2019-08-13_1501 Implement signup link
 
 The idea is to send dedicated signup links to users.
