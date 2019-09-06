@@ -4,13 +4,14 @@ defmodule ANV.Repo.Migrations.CreateDataSources do
   @type_name "sftb_source"
   @table_name :data_sources
 
-  def up do
+  def change do
 
     execute(
       """
       CREATE TYPE #{@type_name}
         AS ENUM (#{sources_sql_string()})
-      """
+      """,
+      "DROP TYPE #{@type_name}"
     )
 
     create table(@table_name, primary_key: false) do
@@ -32,11 +33,6 @@ defmodule ANV.Repo.Migrations.CreateDataSources do
 
       timestamps()
     end
-  end
-
-  def down do
-    drop table(@table_name)
-    execute("DROP TYPE #{@type_name}")
   end
 
   defp sources_sql_string() do

@@ -8,13 +8,14 @@ defmodule ANV.Repo.Migrations.CreateAccessNewsRoles do
     @type_name <> "s"
     |> String.to_atom
 
-  def up do
+  def change do
 
     execute(
       """
       CREATE TYPE #{@type_name}
-        AS ENUM (#{sql_roles_string})
-      """
+        AS ENUM (#{sql_roles_string()})
+      """,
+      "DROP TYPE #{@type_name}"
     )
 
     create table(@table_name, primary_key: false) do
@@ -25,11 +26,6 @@ defmodule ANV.Repo.Migrations.CreateAccessNewsRoles do
 
       timestamps()
     end
-  end
-
-  def down do
-    drop table(@table_name)
-    execute("DROP TYPE #{@type_name}")
   end
 
   defp sql_roles_string() do
