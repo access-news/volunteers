@@ -28,9 +28,5 @@ defmodule ANV.Accounts.PhoneNumber do
     |> cast(attrs, fields)
     |> validate_required(fields)
     |> validate_format(:phone_number, ~r/^\d{10}$/)
-    # |> check_constraint(
-    #      :phone_number,
-    #      name: :phone_number_must_be_a_ten_digit_string
-    #    )
   end
 end

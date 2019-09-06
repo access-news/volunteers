@@ -27,10 +27,10 @@ defmodule ANV.Repo.Migrations.CreatePhoneNumbers do
     create unique_index(:phone_numbers, [:phone_number])
 
     # https://stackoverflow.com/questions/24403085
-    # create constraint(
-    #   :phone_numbers,
-    #   :phone_number_must_be_a_ten_digit_string,
-    #   check: "\"phone_number\" ~ $$^\d{10}\Z$$"
-    # )
+    create constraint(
+      :phone_numbers,
+      :phone_number_must_be_a_ten_digit_string,
+      check: "\"phone_number\" ~ '^\\d{10}$'"
+    )
   end
 end
