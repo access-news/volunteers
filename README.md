@@ -13,19 +13,7 @@
 
 3. Issue `nix-shell` 
 
-   > Read [`shell.nix`](./shell.nix) to see what `nix-shell` does.
-   >
-   > If it  hangs on installing `hex`  or `phoenix`, then
-   > just  copy `_backup/.mix`  to  `.nix-shell` and  try
-   > again:
-   >
-   > ```bash
-   > # From project directory
-   > $ rm -rf .nix-shell && mkdir .nix-shell && cp -r _backup/.mix .nix-shell
-   > ```
-   >
-   > This workaround is needed for me on NixOS 19.03. See
-   > note 2019-08-05_0553 for more info.
+   > Read [`shell.nix`](./shell.nix) and/or the [`shell.nixes` README](https://github.com/toraritte/shell.nixes/tree/master/elixir-phoenix-postgres) to see what [`nix-shell`](https://nixos.org/nix/manual/#sec-nix-shell) will do.
 
 4. Start  Phoenix endpoint with `mix  phx.server` or
    `iex -S mix phx.server`
