@@ -27,6 +27,7 @@ defmodule ANV.Repo.Migrations.CreatePhoneNumbers do
     create unique_index(:phone_numbers, [:phone_number])
 
     # https://stackoverflow.com/questions/24403085
+    # https://elixirforum.com/t/how-to-debug-ecto-migration-constraints
     create constraint(
       :phone_numbers,
       :phone_number_must_be_a_ten_digit_string,
