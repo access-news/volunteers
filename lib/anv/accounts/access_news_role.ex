@@ -4,18 +4,19 @@ defmodule ANV.Accounts.AccessNewsRole do
   import Ecto.Changeset
 
   alias ANV.Accounts.{
-    UserRole,
+    UserRoleJunction,
     User
   }
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
+  @table_name "access_news_roles"
 
-  schema "access_news_roles" do
+  @primary_key {:id, :binary_id, autogenerate: true}
+
+  schema @table_name do
 
     field :role, :string
 
-    many_to_many :users, User, join_through: UserRole
+    many_to_many :users, User, join_through: UserRoleJunction
 
     timestamps()
   end
@@ -27,6 +28,8 @@ defmodule ANV.Accounts.AccessNewsRole do
 
     fields = [ :role ]
 
+    # TODO add unique validation when removing enum
+    # see 2019-09-25_0927 also while at it
     role
     |> cast(attrs, fields)
     |> validate_required(fields)
@@ -35,5 +38,9 @@ defmodule ANV.Accounts.AccessNewsRole do
 
   def roles() do
     ~w(admin subscriber volunteer)
+  end
+
+  def table_atom() do
+    @table_name |> String.to_atom()
   end
 end

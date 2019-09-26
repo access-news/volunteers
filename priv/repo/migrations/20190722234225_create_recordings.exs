@@ -6,7 +6,7 @@ defmodule ANV.Repo.Migrations.CreateRecordings do
 
       add :id, :uuid, primary_key: true
 
-      add :recorded_at, :utc_datetime
+      add :recorded_at, :utc_datetime, null: false
 
       add(
         :user_id,

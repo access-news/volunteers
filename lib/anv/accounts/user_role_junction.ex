@@ -1,4 +1,4 @@
-defmodule ANV.Accounts.UserRole do
+defmodule ANV.Accounts.UserRoleJunction do
 
   use Ecto.Schema
   import Ecto.Changeset
@@ -8,13 +8,15 @@ defmodule ANV.Accounts.UserRole do
     User
   }
 
-  @table_name "users_roles"
+  @table_name ANV.Repo.Aid.table_name(__MODULE__).string
+
   @primary_key false
+  @foreign_key_type :binary_id
 
   schema @table_name do
 
-    belongs_to :user, User,           type: :binary_id
-    belongs_to :access_news_role, AccessNewsRole, type: :binary_id
+    belongs_to :user, User
+    belongs_to :access_news_role, AccessNewsRole
 
     timestamps()
   end
@@ -29,9 +31,9 @@ defmodule ANV.Accounts.UserRole do
     user_role
     |> cast(attrs, fields)
     |> validate_required(fields)
-  end
+    # TODO see 2019-09-25_0927
 
-  def table_name() do
-    @table_name
+    # TODO 2019-09-25_0954 `cast_assoc` for all junction tables
+    # also add `required: true` to `cast_assoc` options
   end
 end

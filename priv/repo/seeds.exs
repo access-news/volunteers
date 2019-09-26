@@ -7,6 +7,7 @@
 # Inside the script, you can read and write to any of your
 # repositories directly:
 #
+alias ANV.Repo.Aid, as: R
 alias ANV.Accounts.{
   User,
   AccessNewsRole
@@ -24,7 +25,7 @@ admin_role = ANV.Repo.get_by(AccessNewsRole, role: "admin")
 
 %User{}
 |> User.changeset(%{username: "admin", credential: %{ password: "admin", password_length: 5}})
-|> Ecto.Changeset.put_assoc(:roles, [admin_role])
+|> Ecto.Changeset.put_assoc(R.table_name(AccessNewsRole).atom, [admin_role])
   # Removed bang  (!) because it  would fail when  it is
   # already added.
 |> ANV.Repo.insert()

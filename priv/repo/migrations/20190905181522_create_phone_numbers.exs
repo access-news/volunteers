@@ -9,7 +9,7 @@ defmodule ANV.Repo.Migrations.CreatePhoneNumbers do
 
       # TODO?
       # https://dba.stackexchange.com/questions/164796/how-do-i-store-phone-numbers-in-postgresql
-      add :phone_number, :string
+      add :phone_number, :string, null: false
 
       add(
         :user_id,

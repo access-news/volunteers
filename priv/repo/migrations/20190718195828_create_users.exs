@@ -6,14 +6,15 @@ defmodule ANV.Repo.Migrations.CreateUsers do
   def change do
 
     create table(:users, primary_key: false) do
-
       add :id, :uuid, primary_key: true
-
       add :username, :string, null: false
-
       timestamps()
     end
 
-    create unique_index(:users, [:username])
+    create unique_index(
+      :users,
+      [:username],
+      name: :users_username_index
+    )
   end
 end
