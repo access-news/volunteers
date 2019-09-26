@@ -7,11 +7,8 @@ defmodule ANV.Core.Publication do
   alias ANV.Core.{
     PublicationType,
     PublicationTypeJunction,
-    PublicationFrequency,
-    PublicationFrequencyJunction,
     Topic,
     PublicationTopicJunction,
-    # Article,
     # Issue
   }
 
@@ -26,12 +23,6 @@ defmodule ANV.Core.Publication do
       R.table_name(PublicationType).atom,
       PublicationType,
       join_through: PublicationTypeJunction
-    )
-
-    many_to_many(
-      R.table_name(PublicationFrequency).atom,
-      PublicationFrequency,
-      join_through: PublicationFrequencyJunction
     )
 
     # NOTE 2019-09-25_1100 volume|issue|edition
