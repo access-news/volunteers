@@ -16,6 +16,7 @@ defmodule ANV.Repo.Migrations.CreatePublications do
 
       # not urgent
       # ==========
+      # frequency will be derived form publication dates
       # see https://en.wikipedia.org/wiki/Periodical_literature
       # add :frequency,
       # see https://en.wikipedia.org/wiki/Newspaper#Categories

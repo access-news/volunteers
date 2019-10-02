@@ -1,5 +1,19 @@
 defmodule ANV.Core.Issue do
 
+  @moduledoc """
+  Ads
+  ===
+
+  + An issue  corresponds to  a weekly flyer  (hence the
+    `:valid_until` field).
+
+  + The  edition is  a geographically  different version
+    (but usually they are all the same).
+
+  + An article corresponds to  a specific section in the
+    flyer.
+  """
+
   use ANV.Schema
   import Ecto.Changeset
 
@@ -14,7 +28,8 @@ defmodule ANV.Core.Issue do
   schema @table_name do
 
     field :name, :string
-    field :published_at, :date
+    field :issue_date, :date
+    field :valid_until, :date
 
     belongs_to(
       R.table_name(Publication).atom,

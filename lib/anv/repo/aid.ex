@@ -11,10 +11,9 @@ defmodule ANV.Repo.Aid do
   , users:                Accounts.Users            \
   , users_roles_junction: Accounts.UserRoleJunction \
   , articles:                          Core.Article                      \
+  , topics:                            Core.Topic                        \
   , issues:                            Core.Issue                        \
   , publications:                      Core.Publication                  \
-  , publication_frequencies:           Core.PublicationFrequency         \
-  , publications_frequencies_junction: Core.PublicationFrequencyJunction \
   , publication_type:                  Core.PublicationType              \
   , publications_types_junction:       Core.PublicationTypeJunction      \
   ]
