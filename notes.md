@@ -380,6 +380,13 @@ TODO: Figure out redirects.
 
 ## 20190828_1438 `User`'s `source_id`
 
+Making it  impossible to forget  that a user  is not
+part of any internal  database. That is, when adding
+a user  one has to  explicitly choose not  to select
+"none", for example.
+
+---
+
 A  particular user  can  have multiple  `source_id`s
 associated with  them. For example, a  volunteer may
 be  in SLATE  (by being  a client),  hence having  a

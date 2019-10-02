@@ -1,6 +1,6 @@
 defmodule ANV.Accounts.UserRoleJunction do
 
-  use Ecto.Schema
+  use ANV.Schema
   import Ecto.Changeset
 
   alias ANV.Accounts.{
@@ -9,9 +9,7 @@ defmodule ANV.Accounts.UserRoleJunction do
   }
 
   @table_name ANV.Repo.Aid.table_name(__MODULE__).string
-
   @primary_key false
-  @foreign_key_type :binary_id
 
   schema @table_name do
 

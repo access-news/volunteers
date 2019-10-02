@@ -1,19 +1,18 @@
 defmodule ANV.Core.Publication do
 
-  use Ecto.Schema
+  use ANV.Schema
   import Ecto.Changeset
 
   alias ANV.Repo.Aid, as: R
   alias ANV.Core.{
-    PublicationType,
-    PublicationTypeJunction,
-    Topic,
-    PublicationTopicJunction,
-    # Issue
+    PublicationType          \
+  , PublicationTypeJunction  \
+  , Topic                    \
+  , PublicationTopicJunction \
+  , Issue                    \
   }
 
   @table_name R.table_name(__MODULE__).string
-  @primary_key {:id, :binary_id, autogenerate: true}
 
   schema @table_name do
 
@@ -28,9 +27,12 @@ defmodule ANV.Core.Publication do
     # NOTE 2019-09-25_1100 volume|issue|edition
     # https://www.differencebetween.com/difference-between-edition-and-vs-issue/
     # https://en.wikipedia.org/wiki/Periodical_literature
-    # has_many :issues, Issue
+    has_many(
+      R.table_name(Issue).atom,
+      Issue
+    )
 
-    # TODO 2019-09-25_1046 topics for articles only
+    # NOTE 2019-09-25_1046 topics for articles only
     # Derive the topics of a particular newspaper from the
     # topics of its articles.
     #
@@ -39,9 +41,6 @@ defmodule ANV.Core.Publication do
     #   Topic,
     #   join_through: PublicationTopicJunction
     # )
-
-    # Articles will belong to issues
-    # has_many :articles, Article
 
     timestamps()
   end

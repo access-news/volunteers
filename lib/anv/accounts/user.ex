@@ -1,6 +1,6 @@
 defmodule ANV.Accounts.User do
 
-  use Ecto.Schema
+  use ANV.Schema
   import Ecto.Changeset
 
   alias ANV.Accounts.{
@@ -13,8 +13,6 @@ defmodule ANV.Accounts.User do
   # alias ANV.Core.Recording
 
   # NOTE 20190828_1639 `Credential`
-
-  @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "users" do
 
@@ -34,8 +32,7 @@ defmodule ANV.Accounts.User do
     # user, phone number combo  needs to be unique because
     # of TR2's login mechanism. Is there a better way?
     has_many :phone_numbers, PhoneNumber
-
-    has_one :credential, Credential
+    has_one  :credential,    Credential
 
     timestamps()
   end
@@ -56,8 +53,8 @@ defmodule ANV.Accounts.User do
     |> unique_constraint(:username, name: :users_username_index)
 
     |> cast_assoc(:credential, required: true)
-    # NOTE 20190828_1438 `data_source` not mandatory
-    |> cast_assoc(:data_sources)
+    # NOTE 20190828_1438 `data_source` mandatory
+    |> cast_assoc(:data_sources, required: true)
     |> cast_assoc(:phone_numbers)
     # TODO: recording
   end

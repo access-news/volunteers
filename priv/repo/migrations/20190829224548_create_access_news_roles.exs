@@ -1,7 +1,7 @@
 defmodule ANV.Repo.Migrations.CreateAccessNewsRoles do
   use Ecto.Migration
 
-  # TODO 2019-09-24_1119 replace ENUM with table
+  # TODO 2019-09-24_1119 replace ENUM with seeds
   #
   # The problem with  ENUM is that if values  need to be
   # added later then it  the schemas may become chaotic,

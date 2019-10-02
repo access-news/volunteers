@@ -6,11 +6,11 @@
 #
 # Inside the script, you can read and write to any of your
 # repositories directly:
-#
+
 alias ANV.Repo.Aid, as: R
 alias ANV.Accounts.{
-  User,
-  AccessNewsRole
+  User           \
+, AccessNewsRole \
 }
 
 for role <- AccessNewsRole.roles() do
@@ -21,10 +21,19 @@ for role <- AccessNewsRole.roles() do
   |> ANV.Repo.insert()
 end
 
-admin_role = ANV.Repo.get_by(AccessNewsRole, role: "admin")
+admin_role  = ANV.Repo.get_by(AccessNewsRole, role: "admin")
+
+credential_map = %{ password: "admin", password_length: 5}
+data_source_map = %{ source: "none", source_id: "none" }
 
 %User{}
-|> User.changeset(%{username: "admin", credential: %{ password: "admin", password_length: 5}})
+|> User.changeset(
+     %{
+       username: "admin",
+       credential: credential_map,
+       data_sources: [data_source_map]
+     }
+   )
 |> Ecto.Changeset.put_assoc(R.table_name(AccessNewsRole).atom, [admin_role])
   # Removed bang  (!) because it  would fail when  it is
   # already added.

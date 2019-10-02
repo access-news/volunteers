@@ -1,6 +1,6 @@
 defmodule ANV.Core.PublicationTypeJunction do
 
-  use Ecto.Schema
+  use ANV.Schema
   import Ecto.Changeset
 
   alias ANV.Repo.Aid, as: R
@@ -10,9 +10,7 @@ defmodule ANV.Core.PublicationTypeJunction do
   }
 
   @table_name R.table_name(__MODULE__).string
-
   @primary_key false
-  @foreign_key_type :binary_id
 
   schema @table_name do
 

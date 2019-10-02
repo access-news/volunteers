@@ -1,12 +1,7 @@
 defmodule ANV.Accounts.PhoneNumber do
 
-  use Ecto.Schema
+  use ANV.Schema
   import Ecto.Changeset
-
-  @primary_key {:id, :binary_id, autogenerate: true}
-
-  # needed for `belongs_to/3`
-  @foreign_key_type :binary_id
 
   schema "phone_numbers" do
 

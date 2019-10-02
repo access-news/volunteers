@@ -7,6 +7,7 @@ config :anv, ANV.Repo,
   database: "anv_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
+  migration_timestamps: [type: :timestamptz],
   pool_size: 10
 
 # For development, we disable any cache and enable

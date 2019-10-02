@@ -1,10 +1,7 @@
 defmodule ANV.Accounts.DataSource do
 
-  use Ecto.Schema
+  use ANV.Schema
   import Ecto.Changeset
-
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
 
   schema "data_sources" do
 
@@ -25,10 +22,11 @@ defmodule ANV.Accounts.DataSource do
 
     data_source
     |> cast(attrs, fields)
+    |> validate_required(fields)
     |> validate_inclusion(:source, sources())
   end
 
   def sources() do
-    ~w(slate res_dev)
+    ~w(none slate res_dev)
   end
 end
