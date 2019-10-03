@@ -10,12 +10,13 @@ defmodule ANV.Repo.Aid do
   , phone_numbers:        Accounts.PhoneNumber      \
   , users:                Accounts.Users            \
   , users_roles_junction: Accounts.UserRoleJunction \
-  , articles:                          Core.Article                      \
-  , topics:                            Core.Topic                        \
-  , issues:                            Core.Issue                        \
-  , publications:                      Core.Publication                  \
-  , publication_type:                  Core.PublicationType              \
-  , publications_types_junction:       Core.PublicationTypeJunction      \
+  , articles:                    Core.Article                      \
+  , topics:                      Core.Topic                        \
+  , articles_topics_junction:    Core.ArticleTopicJunction         \
+  , issues:                      Core.Issue                        \
+  , publications:                Core.Publication                  \
+  , publication_type:            Core.PublicationType              \
+  , publications_types_junction: Core.PublicationTypeJunction      \
   ]
   |> Enum.each(
     fn({name, mod}) ->

@@ -5,19 +5,20 @@ defmodule ANV.Core.Topic do
 
   alias ANV.Repo.Aid, as: R
   alias ANV.Core.{
-    Article    \
+    Article              \
+  , ArticleTopicJunction \
   }
 
   @table_name R.table_name(__MODULE__).string
 
   schema @table_name do
 
-    field :name, :string
-    field :publication_date, :date
+    field :topic, :string
 
-    belongs_to(
+    many_to_many(
       R.table_name(Article).atom,
-      Issue
+      Article,
+      join_through: ArticleTopicJunction
     )
 
     timestamps()

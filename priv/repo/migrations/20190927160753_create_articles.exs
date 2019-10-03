@@ -1,19 +1,5 @@
 defmodule ANV.Repo.Migrations.CreateArticles do
 
-  @moduledoc """
-  Ads
-  ===
-
-  + An issue  corresponds to  a weekly flyer  (hence the
-    `:valid_until` field).
-
-  + The  edition is  a geographically  different version
-    (but usually they are all the same).
-
-  + An article corresponds to  a specific section in the
-    flyer.
-  """
-
   use Ecto.Migration
 
   alias ANV.Repo.Aid, as: R
@@ -29,8 +15,12 @@ defmodule ANV.Repo.Migrations.CreateArticles do
     create table(@table_name, primary_key: false) do
 
       add :id, :uuid, primary_key: true
-      add :title,        :string, null: false
-      add :publication_date, :date,   null: false
+      add :title,            :string, null: false
+
+      # add :publication_date, :date,   null: false
+      # add :article_text,     :string, null: false
+      # add :article_url,      :string # e.g., some have publications no online presence
+      # has_many :authors
 
       add(
         :issue_id,
