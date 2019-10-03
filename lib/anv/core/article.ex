@@ -42,15 +42,16 @@ defmodule ANV.Core.Article do
     Issue                \
   , Topic                \
   , ArticleTopicJunction \
+  , Recording            \
   }
 
   @table_name R.table_name(__MODULE__).string
 
   schema @table_name do
 
-    field :title, :string
+    field :title,        :string
+    field :published_at, :utc_datetime
 
-    # field :publication_date, :date
     # field :article_text, :string
     # has_many :authors
 
@@ -64,6 +65,8 @@ defmodule ANV.Core.Article do
       Topic,
       join_through: ArticleTopicJunction
     )
+
+    has_many :recordings, Recording
 
     timestamps()
   end

@@ -15,9 +15,9 @@ defmodule ANV.Repo.Migrations.CreateArticles do
     create table(@table_name, primary_key: false) do
 
       add :id, :uuid, primary_key: true
-      add :title,            :string, null: false
+      add :title,        :string,      null: false
+      add :published_at, :timestamptz, null: false
 
-      # add :publication_date, :date,   null: false
       # add :article_text,     :string, null: false
       # add :article_url,      :string # e.g., some have publications no online presence
       # has_many :authors

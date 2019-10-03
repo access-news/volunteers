@@ -17,6 +17,7 @@ defmodule ANV.Repo.Aid do
   , publications:                Core.Publication                  \
   , publication_type:            Core.PublicationType              \
   , publications_types_junction: Core.PublicationTypeJunction      \
+  , recordings:                  Core.Recording                    \
   ]
   |> Enum.each(
     fn({name, mod}) ->

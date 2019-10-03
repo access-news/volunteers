@@ -4,13 +4,13 @@ defmodule ANV.Accounts.User do
   import Ecto.Changeset
 
   alias ANV.Accounts.{
-    Credential,
-    DataSource,
-    AccessNewsRole,
-    UserRoleJunction,
-    PhoneNumber
+    Credential       \
+  , DataSource       \
+  , AccessNewsRole   \
+  , UserRoleJunction \
+  , PhoneNumber      \
   }
-  # alias ANV.Core.Recording
+  alias ANV.Core.Recording
 
   # NOTE 20190828_1639 `Credential`
 
@@ -24,8 +24,8 @@ defmodule ANV.Accounts.User do
       join_through: UserRoleJunction
     )
 
-    # has_many :recordings,    Recording
-    has_many :data_sources,  DataSource
+    has_many :recordings,   Recording
+    has_many :data_sources, DataSource
 
     # NOTE TODO? 2019-09-23_1410
     # This  should be  `many_to_many`,  but currently  the
