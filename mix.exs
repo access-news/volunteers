@@ -46,11 +46,11 @@ defmodule ANV.MixProject do
       {:plug_cowboy,         " ~> 2.0   " },
       {:argon2_elixir,       " ~> 2.0   " },
       {:google_api_storage,  " ~> 0.9.0 " },
-      {:goth,                " ~> 1.1.0 " },
-      {:guss,
-        github:   "toraritte/guss",
-        branch:   "add_v4_signing",
-      },
+      # {:goth,                " ~> 1.1.0 " },
+      # {:guss,
+      #   github:   "toraritte/guss",
+      #   branch:   "add_v4_signing",
+      # },
       # {:guss,                " ~> 0.1.5 " },
     ]
   end
